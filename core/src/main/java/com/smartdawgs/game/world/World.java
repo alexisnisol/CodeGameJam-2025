@@ -74,8 +74,11 @@ public class World implements Screen {
 
 
     private void updateCamera() {
-        camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
-        camera.zoom = 0.2f;
+        if(map.getLayers().get("piece1").getObjects().getCount()==0) {
+            camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
+            camera.zoom = 0.2f;
+        }
+        else if(map.getLayers().get("piece2").getObjects().getCount()==0) {}
         camera.update();
     }
 
