@@ -1,6 +1,7 @@
 package com.smartdawgs.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,6 +25,9 @@ public class Main extends Game {
     @Override
     public void render() {
         super.render();
+
+        float delta = 1 / 1000f;
+        soundManager.musicVolumeDown(delta);
     }
 
     @Override
