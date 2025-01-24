@@ -11,6 +11,10 @@ public class Main extends Game {
 
     private EntityPlayer player;
 
+    public EntityPlayer getPlayer() {
+        return player;
+    }
+
     @Override
     public void create() {
         player = new EntityPlayer();
