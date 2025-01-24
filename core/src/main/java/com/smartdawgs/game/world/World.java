@@ -2,48 +2,66 @@ package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.entity.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World extends WorldElement {
+    private SpriteBatch hudBatch;
+
+    float worldWidth;
+    float worldHeight;
     final float unitScale = 1f / 32f;
-    private MapObjects layerCollision;
-    private float oldX;
-    private float oldY;
-    private int label = 0;
-    private HouseEnigme1 houseEnigme1;
 
 
-    private Stage stage;
-    private Label labelHouse1;
-    private BitmapFont bitmapFont;
-    private String labAction;
+    private float stateTime = 0;
+    private float deltaTest = 0;
 
+
+    @Setter
     private boolean testFirstPassage = false;
+
+    @Getter
+    private List<Entity> entities;
 
     public World(Main game) {
         super(game, "GameJamTiledMap");
         houseEnigme1 = new HouseEnigme1(game, this);
+        this.game = game;
+        this.batch = new SpriteBatch();
+        this.hudBatch = new SpriteBatch();
+
+        this.entities = new ArrayList<>();
+
+        this.map = new TmxMapLoader().load("TiledMap/GameJamTiledMap.tmx");
+        this.mapRenderer = new OrthogonalTiledMapRenderer(map);
+
+        this.worldHeight = map.getProperties().get("height", Integer.class) * 32f;
+        this.worldWidth = map.getProperties().get("width", Integer.class) * 32f;
+        this.camera = new OrthographicCamera();
+        this.viewport = new FitViewport(this.worldWidth, this.worldHeight, this.camera);
+
         this.layerCollision = map.getLayers().get("collision").getObjects();
 
         // Initialisation de Stage et de BitmapFont
@@ -58,21 +76,19 @@ public class World extends WorldElement {
         labelHouse1 = new Label("Appuyez sur la touche 'F'", labelStyle);
 
         stage.addActor(labelHouse1);  // Ajout du label à la scène
+
+        EntityRegister.registerEntities(this);
     }
 
     @Override
-    public void show() {
-        this.oldX = this.game.getPlayer().getX();
-        this.oldY = this.game.getPlayer().getY();
-        this.game.getPlayer().setPosition(worldWidth/2, worldHeight/2);
-        labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-        }
-
-    @Override
     public void render(float v) {
+        stateTime += v;
         switch (labAction) {
             case "house1":
-                houseEnigme1.firstPassage();
+                if (testFirstPassage) {
+                    houseEnigme1.firstPassage();
+                    testFirstPassage = false;
+                }
                 houseEnigme1.render(v);
                 break;
 
@@ -110,7 +126,8 @@ public class World extends WorldElement {
                 labelHouse1.setVisible(true);
                 labelHouse1.setText("Appuyez sur la touche 'F'");
                 labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-                if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
+                    deltaTest = stateTime;
                     labAction = object.getName();
                     testFirstPassage = true;
                 }
@@ -139,13 +156,13 @@ public class World extends WorldElement {
                 if (Intersector.overlaps(playerRectangle, obstacleRectangle)) {
                     // Calcul des chevauchements sur chaque axe
                     float overlapX = Math.min(
-                        playerRectangle.x + playerRectangle.width,
-                        obstacleRectangle.x + obstacleRectangle.width
+                            playerRectangle.x + playerRectangle.width,
+                            obstacleRectangle.x + obstacleRectangle.width
                     ) - Math.max(playerRectangle.x, obstacleRectangle.x);
 
                     float overlapY = Math.min(
-                        playerRectangle.y + playerRectangle.height,
-                        obstacleRectangle.y + obstacleRectangle.height
+                            playerRectangle.y + playerRectangle.height,
+                            obstacleRectangle.y + obstacleRectangle.height
                     ) - Math.max(playerRectangle.y, obstacleRectangle.y);
 
                     // Comparaison des chevauchements
@@ -226,25 +243,14 @@ public class World extends WorldElement {
     }
 
     @Override
-    public void pause() {
+    public void show() {
+        this.oldX = this.game.getPlayer().getX();
+        this.oldY = this.game.getPlayer().getY();
+        this.game.getPlayer().setPosition(worldWidth / 2, worldHeight / 2);
+        this.entities.get(0).setPosition(worldWidth / 2, worldHeight / 2);
+        this.entities.get(1).setPosition(worldWidth / 2, worldHeight / 2 + 100);
 
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.dispose();
-        mapRenderer.dispose();
-        map.dispose();
+        this.entities.get(2).setPosition(worldWidth / 2 + 100, worldHeight / 2);
     }
 
     public void firstPassage(String pointSortie) {

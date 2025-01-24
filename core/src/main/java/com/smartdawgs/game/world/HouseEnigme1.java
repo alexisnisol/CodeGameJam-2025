@@ -49,18 +49,24 @@ public class HouseEnigme1 extends WorldElement {
                 draw();
                 break;
         }
-
     }
 
     public void firstPassage() {
-        MapObjects points = map.getLayers().get("Label").getObjects();
+        MapObjects points = map.getLayers().get("collision").getObjects();
         for (MapObject object : points) {
+
             if (object.getProperties().containsKey("x") && object.getProperties().containsKey("y")) {
+                System.out.println(object.getName());
+                if (!(object.getName() == null) && object.getName().equals("sortie")) {
                 float x = (float) object.getProperties().get("x", Float.class);
                 float y = (float) object.getProperties().get("y", Float.class);
 
                 this.game.getPlayer().setPosition(x, y);
                 labAction = nom;
+                parent.setTestFirstPassage(false);
+                break;
+
+                }
 
             }
         }
@@ -81,7 +87,7 @@ public class HouseEnigme1 extends WorldElement {
     }
 
     private void checkPlace() {
-        MapObjects points = map.getLayers().get("Label").getObjects();
+        MapObjects points = map.getLayers().get("collision").getObjects();
         for (MapObject object : points) {
             float x = (float) object.getProperties().get("x", Float.class);
             float y = (float) object.getProperties().get("y", Float.class);
@@ -95,7 +101,6 @@ public class HouseEnigme1 extends WorldElement {
                     labAction = "";
                 }
             }
-
             else {
                 labelHouse1.setVisible(false);
                 labAction = nom;

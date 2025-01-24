@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.smartdawgs.game.Main;
+import lombok.Getter;
 
 public abstract class WorldElement implements Screen {
+    @Getter
     protected Main game;
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
@@ -33,6 +35,7 @@ public abstract class WorldElement implements Screen {
     protected float oldX;
     protected float oldY;
     protected HouseEnigme1 houseEnigme1;
+
 
 
     public WorldElement(Main game, String nameTiledMap){
