@@ -39,9 +39,11 @@ public class World extends WorldElement {
     private BitmapFont bitmapFont;
     private String labAction;
 
+    private boolean testFirstPassage = false;
+
     public World(Main game) {
         super(game, "GameJamTiledMap");
-        houseEnigme1 = new HouseEnigme1(game);
+        houseEnigme1 = new HouseEnigme1(game, this);
         this.layerCollision = map.getLayers().get("collision").getObjects();
 
         // Initialisation de Stage et de BitmapFont
@@ -68,10 +70,20 @@ public class World extends WorldElement {
 
     @Override
     public void render(float v) {
+        switch (labAction) {
+            case "house1":
+                houseEnigme1.firstPassage();
+                houseEnigme1.render(v);
+                break;
 
-        this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
-        logic();
-        draw();
+            case "HouseEnigme2":
+                break;
+
+            default:
+                this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
+                logic();
+                draw();
+                break;}
     }
 
     public void logic() {
@@ -100,12 +112,14 @@ public class World extends WorldElement {
                 labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                     labAction = object.getName();
+                    testFirstPassage = true;
                 }
             }
 
             else {
                 labelHouse1.setVisible(false);
                 labAction = "";
+                testFirstPassage = false;
             }
         }
     }
@@ -231,5 +245,19 @@ public class World extends WorldElement {
         game.dispose();
         mapRenderer.dispose();
         map.dispose();
+    }
+
+    public void firstPassage(String pointSortie) {
+        MapObjects points = map.getLayers().get("Label").getObjects();
+        for (MapObject object : points) {
+            if (object.getProperties().containsKey("x") && object.getProperties().containsKey("y")) {
+                if (object.getName().equals(pointSortie)) {
+                    float x = (float) object.getProperties().get("x", Float.class);
+                    float y = (float) object.getProperties().get("y", Float.class);
+                    this.game.getPlayer().setPosition(x, y);
+                    labAction = "";}
+
+            }
+        }
     }
 }
