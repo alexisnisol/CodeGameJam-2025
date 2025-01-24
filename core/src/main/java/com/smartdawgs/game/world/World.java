@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -74,8 +76,18 @@ public class World implements Screen {
 
 
     private void updateCamera() {
-        camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
-        camera.zoom = 0.2f;
+        if(map.getLayers().get("piece1").getObjects().getCount()==0) {
+            camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
+            camera.zoom = 0.2f;
+        }
+        else {
+            for(MapLayer layer : map.getLayers()) {
+                if(!(layer.getName().equals("collision"))) {
+                    if()
+                }
+            }
+            }
+        }
         camera.update();
     }
 
