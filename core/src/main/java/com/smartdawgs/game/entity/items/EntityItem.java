@@ -39,7 +39,13 @@ public class EntityItem extends Entity implements Interactable {
         if(this.world.getGame().getPlayer().getInventory().setCurrentItem(this)) {
             this.world.getEntities().remove(this);
         }
-
         return true;
     }
+
+    public void onUse() {
+
+    }
+
+
+
 }
