@@ -46,6 +46,11 @@ public class Affichage implements Screen {
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
     }
 
+    @Override
+    public void show() {
+        this.oldX = this.jeu.getPlayer().getX();
+        this.oldY = this.jeu.getPlayer().getY();
+    }
 
     @Override
     public void render() {
