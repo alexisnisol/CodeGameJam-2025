@@ -14,10 +14,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.entity.EntityItemBook;
+import com.smartdawgs.game.gui.DialogPanel;
 
 public class World implements Screen {
     private Main game;
@@ -33,6 +36,13 @@ public class World implements Screen {
     private float oldX;
     private float oldY;
 
+    private Stage stage;
+    private DialogPanel dialogPanel;
+
+    private EntityItemBook book;
+
+    private float time = 0f;
+
 
     public World(Main game) {
         this.game = game;
@@ -46,6 +56,12 @@ public class World implements Screen {
         this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
         this.camera=new OrthographicCamera();
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
+
+        this.stage = new Stage(viewport);
+        this.dialogPanel = new DialogPanel();
+        this.stage.addActor(dialogPanel.getTable());
+        book = new EntityItemBook("book", "a book", dialogPanel);
+        book.interract();
     }
 
     @Override
@@ -65,6 +81,7 @@ public class World implements Screen {
         updateCamera();
         collision();
         playerLimit();
+        System.out.println(this.dialogPanel.getTable().isVisible());
     }
 
 
@@ -102,6 +119,16 @@ public class World implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.polygon(game.getPlayer().getPlayerPolygon().getTransformedVertices());
         shapeRenderer.end();
+        // delta entre 2 frames
+        float delta = Gdx.graphics.getDeltaTime();
+        time += delta;
+        if (time > 5) {
+            this.dialogPanel.getTable().setVisible(false);
+        }
+        this.dialogPanel.reposition(oldX, oldY);
+        // Mise à jour du stage
+        stage.act(delta);
+        stage.draw();
 
         batch.begin();
 

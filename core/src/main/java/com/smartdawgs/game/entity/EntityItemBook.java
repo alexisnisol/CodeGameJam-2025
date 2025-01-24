@@ -13,9 +13,10 @@ public class EntityItemBook extends EntityItem {
         this.dialogPanel = dialogPanel;
     }
 
+    @Override
     public void interract(){
         dialogPanel.setText(text);
-        dialogPanel.render();
+        dialogPanel.getTable().setVisible(true);
     }
 
     @Override
