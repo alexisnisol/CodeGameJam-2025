@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -156,36 +157,34 @@ public class World implements Screen {
 
     public void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
+
+
         viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
         mapRenderer.setView(camera);
-        mapRenderer.render();
 
-        // Utilisation de ShapeRenderer pour afficher les rectangles
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("grass"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("road"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("floor"));
+        mapRenderer.getBatch().end();
 
-        // Dessiner le rectangle du joueur
-        Rectangle playerRect = game.getPlayer().getPlayerRect();
-        shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
-
-//        // Dessiner les rectangles des obstacles
-//        for (MapObject object : this.layerCollision) {
-//            if (object instanceof RectangleMapObject) {
-//                Rectangle obstacleRect = ((RectangleMapObject) object).getRectangle();
-//                shapeRenderer.rect(obstacleRect.x, obstacleRect.y, obstacleRect.width, obstacleRect.height);
-//            }
-//        }
-
-        shapeRenderer.end();
-
-        // Dessin des sprites
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         game.getPlayer().draw(batch);
         batch.end();
+
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("trottoire"));
+
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("tree1"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("tree2"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("batiment"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("batiment2"));
+
+        mapRenderer.getBatch().end();
     }
+
 
 
     private void playerLimit() {
