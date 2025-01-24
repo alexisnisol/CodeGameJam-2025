@@ -8,7 +8,7 @@
     ],
     "fileStates": {
         "Backyard - Act 1 Tile.tsx": {
-            "scaleInDock": 0.5
+            "scaleInDock": 0.33
         },
         "City Act 1 - Tile map.tsx": {
             "scaleInDock": 0.33
@@ -44,11 +44,11 @@
             "scaleInDock": 1
         },
         "GameJamTiledMap.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 6,
+            "scale": 1,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 1451,
-                "y": 1310
+                "x": 1589.5,
+                "y": 939
             }
         },
         "HorrorHouse1.tsx": {
@@ -94,10 +94,13 @@
             "scaleInDock": 1
         },
         "Suspect House - Act 1 - Tiles.tsx": {
-            "scaleInDock": 0.75
+            "scaleInDock": 0.33
         },
         "Tile Map - Entrance Apartment Act 1.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.5
+        },
+        "UNo513-Photoroom.tsx": {
+            "scaleInDock": 1.5
         },
         "blanc_horizon.tsx": {
             "scaleInDock": 1
@@ -173,6 +176,7 @@
         "GameJamTiledMap.tmx"
     ],
     "project": "GameJamTiledMap.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "GameJamTiledMap.tmx"
     ],

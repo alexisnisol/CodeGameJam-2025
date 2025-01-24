@@ -1,8 +1,10 @@
 package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
@@ -16,6 +18,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -34,6 +38,10 @@ public class World implements Screen {
     private MapObjects layerCollision;
     private float oldX;
     private float oldY;
+    private Stage stage;
+    private Label labelHouse1;
+    private BitmapFont bitmapFont;
+    private String labAction;
 
     public World(Main game) {
         this.game = game;
@@ -49,6 +57,19 @@ public class World implements Screen {
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
 
         this.layerCollision = map.getLayers().get("collision").getObjects();
+
+        // Initialisation de Stage et de BitmapFont
+        this.stage = new Stage(viewport, batch);
+        Gdx.input.setInputProcessor(stage);
+
+        bitmapFont = new BitmapFont();  // Initialisation de bitmapFont
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = bitmapFont;
+
+        // Création du label
+        labelHouse1 = new Label("Appuyez sur la touche 'F'", labelStyle);
+
+        stage.addActor(labelHouse1);  // Ajout du label à la scène
     }
 
     @Override
@@ -56,7 +77,8 @@ public class World implements Screen {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
         this.game.getPlayer().setPosition(worldWidth/2, worldHeight/2);
-    }
+        labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+        }
 
     @Override
     public void render(float v) {
@@ -70,6 +92,7 @@ public class World implements Screen {
         updateCamera();
         collision();
         playerLimit();
+        checkPlace();
     }
 
 
@@ -77,6 +100,28 @@ public class World implements Screen {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
         camera.zoom = 0.2f;
         camera.update();
+    }
+
+    private void checkPlace() {
+        MapObjects points = map.getLayers().get("Label").getObjects();
+        for (MapObject object : points) {
+            float x = (float) object.getProperties().get("x", Float.class);
+            float y = (float) object.getProperties().get("y", Float.class);
+
+            if (Math.abs(x - this.game.getPlayer().getX()) < 10f || Math.abs(y - this.game.getPlayer().getY()) < 10f) {
+                labelHouse1.setVisible(true);
+                labelHouse1.setText("Appuyez sur la touche 'F'");
+                labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+                if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                    labAction = object.getName();
+                }
+            }
+
+            else {
+                labelHouse1.setVisible(false);
+                labAction = "";
+            }
+        }
     }
 
 
@@ -147,16 +192,9 @@ public class World implements Screen {
         Rectangle playerRect = game.getPlayer().getPlayerRect();
         shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
 
-//        // Dessiner les rectangles des obstacles
-//        for (MapObject object : this.layerCollision) {
-//            if (object instanceof RectangleMapObject) {
-//                Rectangle obstacleRect = ((RectangleMapObject) object).getRectangle();
-//                shapeRenderer.rect(obstacleRect.x, obstacleRect.y, obstacleRect.width, obstacleRect.height);
-//            }
-//        }
-
         shapeRenderer.end();
-
+        stage.act();
+        stage.draw();
         // Dessin des sprites
         batch.begin();
         game.getPlayer().draw(batch);

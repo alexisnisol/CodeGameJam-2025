@@ -84,7 +84,7 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
 
-        playerRect.setPosition(getX() + 7,getY() - 8);
+        playerRect.setPosition(getX() + 12,getY() - 15);
 
     }
 
