@@ -42,8 +42,8 @@ public class World implements Screen {
         this.mapRenderer = new OrthogonalTiledMapRenderer(map);
         //this.layerCollision = this.map.getLayers().get("collision").getObjects();
 
-        this.worldHeight=map.getProperties().get("height", Integer.class);
-        this.worldWidth=map.getProperties().get("width", Integer.class);
+        this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
+        this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
         this.camera=new OrthographicCamera();
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
     }
@@ -70,6 +70,7 @@ public class World implements Screen {
 
     private void updateCamera() {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
+        camera.zoom = 0.2f;
         camera.update();
     }
 
