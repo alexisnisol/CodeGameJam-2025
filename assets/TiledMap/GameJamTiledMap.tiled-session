@@ -19,5 +19,6 @@
     "project": "GameJamTiledMap.tiled-project",
     "recentFiles": [
     ],
+    "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx"
 }
