@@ -8,28 +8,37 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.entity.Entity;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World implements Screen {
+    @Getter
     private Main game;
     private SpriteBatch batch;
+    private SpriteBatch hudBatch;
+    @Getter
     private OrthographicCamera camera;
+    @Getter
     private FitViewport viewport;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -44,13 +53,18 @@ public class World implements Screen {
     private BitmapFont bitmapFont;
     private String labAction;
 
+    @Getter
+    private List<Entity> entities;
+
     public World(Main game) {
         this.game = game;
         this.batch = new SpriteBatch();
+        this.hudBatch = new SpriteBatch();
+
+        this.entities = new ArrayList<>();
 
         this.map=new TmxMapLoader().load("TiledMap/GameJamTiledMap.tmx");
         this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
 
         this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
         this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
@@ -71,6 +85,7 @@ public class World implements Screen {
         labelHouse1 = new Label("Appuyez sur la touche 'F'", labelStyle);
 
         stage.addActor(labelHouse1);  // Ajout du label à la scène
+        EntityRegister.registerEntities(this);
     }
 
     @Override
@@ -83,8 +98,6 @@ public class World implements Screen {
 
     @Override
     public void render(float v) {
-
-        this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
         logic();
         draw();
     }
@@ -92,10 +105,17 @@ public class World implements Screen {
     public void logic() {
         updateCamera();
         collision();
+        updateEntities(Gdx.graphics.getDeltaTime());
         playerLimit();
         checkPlace();
     }
 
+    public void updateEntities(float delta){
+        this.game.getPlayer().update(delta);
+        for(Entity entity : entities){
+            entity.update(delta);
+        }
+    }
 
     private void updateCamera() {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
@@ -215,9 +235,15 @@ public class World implements Screen {
 
 
         batch.begin();
-        batch.setProjectionMatrix(camera.combined);
-        game.getPlayer().draw(batch);
+        for(Entity entity : entities){
+            entity.draw(batch);
+        }
+        this.game.getPlayer().draw(batch);
         batch.end();
+
+        hudBatch.begin();
+        this.game.getPlayer().getInventory().draw(hudBatch);
+        hudBatch.end();
 
         mapRenderer.getBatch().begin();
         mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("trottoire"));
@@ -231,9 +257,11 @@ public class World implements Screen {
 
         stage.act();
         stage.draw();
+    
+
+    
 
     }
-
 
 
     private void playerLimit() {
