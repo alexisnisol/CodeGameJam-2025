@@ -1,4 +1,4 @@
-package com.smartdawgs.game.entity;
+package com.smartdawgs.game.entity.items;
 
 import com.smartdawgs.game.gui.DialogPanel;
 

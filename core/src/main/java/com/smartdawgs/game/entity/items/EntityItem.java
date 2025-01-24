@@ -1,4 +1,6 @@
-package com.smartdawgs.game.entity;
+package com.smartdawgs.game.entity.items;
+
+import com.smartdawgs.game.entity.Entity;
 
 public class EntityItem extends Entity {
     protected String name;
