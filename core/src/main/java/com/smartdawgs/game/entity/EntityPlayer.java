@@ -2,6 +2,7 @@ package com.smartdawgs.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -19,6 +20,10 @@ public class EntityPlayer extends Entity{
     private Polygon polygon;
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private static final int FRAME_COLS = 4; // Example value
+    private static final int FRAME_ROWS = 4; // Example value
+    private Animation<TextureRegion> walkAnimation;
+    private Animation<TextureRegion> currentAnimation;
 
     public EntityPlayer(TextureAtlas atlas) {
         super(atlas.findRegion("player_1"));
@@ -28,8 +33,12 @@ public class EntityPlayer extends Entity{
         this.speed=100f;
         this.setScale(2.0f);
 
-        animation = new Animation<>(0.1f, atlas.findRegions("player_move"), Animation.PlayMode.LOOP);
-        stateTime = 0;
+        walkAnimation = new Animation<TextureRegion>(0.1f,
+            atlas.findRegion("player_move_1"),
+            atlas.findRegion("player_move_2")
+        );
+
+        stateTime = 1f;
     }
 
     public Polygon getPlayerPolygon() {
@@ -57,7 +66,7 @@ public class EntityPlayer extends Entity{
 
     @Override
     public void draw(Batch batch) {
-        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }
