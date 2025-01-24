@@ -120,6 +120,7 @@ public class EntityPlayer extends Entity{
         } else if (direction == Direction.RIGHT && currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         }
+
         batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }
