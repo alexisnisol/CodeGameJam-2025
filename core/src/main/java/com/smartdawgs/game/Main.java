@@ -23,6 +23,7 @@ public class Main extends Game {
         soundManager.playMusic();
     }
 
+
     @Override
     public void render() {
         super.render();
