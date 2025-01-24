@@ -1,0 +1,63 @@
+player_atlas.png
+size:512,512
+repeat:none
+player_idle_1
+bounds:0,0,48,48
+player_idle_2
+bounds:48,0,48,48
+player_idle_3
+bounds:96,0,48,48
+player_idle_4
+bounds:144,0,48,48
+player_idle_5
+bounds:192,0,48,48
+player_idle_side_1
+bounds:0, 48, 48, 48
+player_idle_side_2
+bounds:48, 48, 48, 48
+player_idle_side_3
+bounds:96, 48, 48, 48
+player_idle_side_4
+bounds:144, 48, 48, 48
+player_idle_side_5
+bounds:192, 48, 48, 48
+player_idle_back_1
+bounds:0, 96, 48, 48
+player_idle_back_2
+bounds:48, 96, 48, 48
+player_idle_back_3
+bounds:96, 96, 48, 48
+player_idle_back_4
+bounds:144, 96, 48, 48
+player_idle_back_5
+bounds:192, 96, 48, 48
+player_walk_1
+bounds:0, 144, 48, 48
+player_walk_2
+bounds:48, 144, 48, 48
+player_walk_3
+bounds:96, 144, 48, 48
+player_walk_4
+bounds:144, 144, 48, 48
+player_walk_5
+bounds:192, 144, 48, 48
+player_walk_side_1
+bounds:0, 192, 48, 48
+player_walk_side_2
+bounds:48, 192, 48, 48
+player_walk_side_3
+bounds:96, 192, 48, 48
+player_walk_side_4
+bounds:144, 192, 48, 48
+player_walk_side_5
+bounds:192, 192, 48, 48
+player_walk_back_1
+bounds:0, 240, 48, 48
+player_walk_back_2
+bounds:48, 240, 48, 48
+player_walk_back_3
+bounds:96, 240, 48, 48
+player_walk_back_4
+bounds:144, 240, 48, 48
+player_walk_back_5
+bounds:192, 240, 48, 48

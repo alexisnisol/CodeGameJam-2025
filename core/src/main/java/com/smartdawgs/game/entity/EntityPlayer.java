@@ -2,58 +2,122 @@ package com.smartdawgs.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
+import com.smartdawgs.game.entity.enums.Direction;
+import lombok.Getter;
+import lombok.Setter;
+import org.w3c.dom.Text;
 
-public class EntityPlayer {
-    private Vector2 position;
-    private Vector2 velocity;
+public class EntityPlayer extends Entity{
+
+    @Getter
+    @Setter
+    private float speed;
+    private Polygon polygon;
+
+    private float stateTime;
+    private Animation<TextureRegion> currentAnimation;
+    private Direction direction;
+    private boolean isMoving = false;
 
 
-    public void update(float deltaTime){
-        // On déplace la position théorique pas l'image pour l'instant
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+    // Animation for idle
+    private Animation<TextureRegion> idleAnimation;
+    private  Animation<TextureRegion> idleSideAnimation;
+    private  Animation<TextureRegion> idleBackAnimation;
+
+    // Animation for walking
+    private Animation<TextureRegion> walkAnimation;
+    private Animation<TextureRegion> walkSideAnimation;
+    private Animation<TextureRegion> walkBackAnimation;
+
+    public EntityPlayer(TextureAtlas atlas) {
+        super(atlas.findRegion("player_idle_1"));
+        float[] dimensions={1,1,1,1,1,1,1,1};
+        polygon=new Polygon(dimensions);
+        polygon.setPosition(getX(),getY());
+        this.speed=200f;
+        this.setScale(2.0f);
+
+        idleAnimation = createAnimation(atlas, "player_idle", 5, 0.1f);
+        idleSideAnimation = createAnimation(atlas, "player_idle_side", 5, 0.1f);
+        idleBackAnimation = createAnimation(atlas, "player_idle_back", 5, 0.1f);
+
+        walkAnimation = createAnimation(atlas, "player_walk", 5, 0.1f);
+        walkSideAnimation = createAnimation(atlas, "player_walk_side", 5, 0.1f);
+        walkBackAnimation = createAnimation(atlas, "player_walk_back", 5, 0.1f);
+
+        stateTime = 1f;
     }
 
-    public void move(float x, float y) {
-        velocity.set(x, y);
-        System.out.println("MOVE " + position);
+
+
+    public Polygon getPlayerPolygon() {
+        return this.polygon;
     }
 
-    public void stop() {
-        velocity.set(0, 0);
-        System.out.println("STOP " + position);
+    public void update(float delta) {
+        stateTime += delta;
+
+        isMoving = false;
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            this.translateY(speed * delta);
+            this.direction = Direction.UP;
+            this.isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            this.translateY(- speed * delta);
+            this.direction = Direction.DOWN;
+            this.isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            this.translateX(- speed * delta);
+            this.direction = Direction.LEFT;
+            this.isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            this.translateX(speed * delta);
+            this.direction = Direction.RIGHT;
+            this.isMoving = true;
+        }
     }
 
+    @Override
+    public void draw(Batch batch) {
+        currentAnimation = idleAnimation;
 
-    public void handleInput() {
-        // On peux définir la vitesse du joueur
-        float speedX = 40f;
-        float speedY = 25f;
-
-
-        if ((Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))) {
-            move(-speedX, speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))) {
-            move(speedX, speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
-            move(-speedX, -speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
-            move(speedX, -speedY);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            move(-speedX, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            move(speedX, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            move(0, speedY);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            move(0, -speedY);
+        if (isMoving){
+            if (direction == Direction.UP) {
+                currentAnimation = walkBackAnimation;
+            } else if (direction == Direction.DOWN) {
+                currentAnimation = walkAnimation;
+            } else if (direction == Direction.LEFT) {
+                currentAnimation = walkSideAnimation;
+            } else if (direction == Direction.RIGHT) {
+                currentAnimation = walkSideAnimation;
+            }
         } else {
-            stop();
+            if (direction == Direction.UP) {
+                currentAnimation = idleBackAnimation;
+            } else if (direction == Direction.DOWN) {
+                currentAnimation = idleAnimation;
+            } else if (direction == Direction.LEFT) {
+                currentAnimation = idleSideAnimation;
+            } else if (direction == Direction.RIGHT) {
+                currentAnimation = idleSideAnimation;
+            }
         }
 
+        TextureRegion currentFrame = currentAnimation.getKeyFrame(stateTime, true);
+        if (direction == Direction.LEFT && !currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        } else if (direction == Direction.RIGHT && currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        }
+        batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }

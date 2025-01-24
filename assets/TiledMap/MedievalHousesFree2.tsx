@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.0" name="MedievalHousesFree2" tilewidth="32" tileheight="32" tilecount="16" columns="4">
- <image source="../../../../../../Downloads/MedievalHousesFree2.png" width="128" height="128"/>
+ <image source="TiledSet/medieval_house.png" width="128" height="128"/>
 </tileset>
