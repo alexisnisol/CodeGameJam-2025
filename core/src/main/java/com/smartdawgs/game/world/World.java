@@ -19,33 +19,19 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.smartdawgs.game.Main;
 
-public class World implements Screen {
-    private Main game;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    float worldWidth;
-    float worldHeight;
+public class World extends WorldElement {
     final float unitScale = 1f / 32f;
     private MapObjects layerCollision;
     private float oldX;
     private float oldY;
+    private int label = 0;
+    private HouseEnigme1 houseEnigme1;
+
 
 
     public World(Main game) {
-        this.game = game;
-        this.batch = new SpriteBatch();
-
-        this.map=new TmxMapLoader().load("TiledMap/GameJamTiledMap.tmx");
-        this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
-
-        this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
-        this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
-        this.camera=new OrthographicCamera();
-        this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
+        super(game, "GameJamTiledMap");
+        houseEnigme1 = new HouseEnigme1(game);
     }
 
     @Override
@@ -56,9 +42,21 @@ public class World implements Screen {
 
     @Override
     public void render(float v) {
-        this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
-        logic();
-        draw();
+
+        switch (label){
+            case 1:
+                houseEnigme1.show();
+                houseEnigme1.render(v);
+                break;
+            case 2:
+                break;
+            default:
+                this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
+                logic();
+                draw();
+                break;
+        }
+
     }
 
     public void logic() {
@@ -132,27 +130,5 @@ public class World implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.dispose();
-        mapRenderer.dispose();
-        map.dispose();
     }
 }

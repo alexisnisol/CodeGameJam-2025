@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.smartdawgs.game.entity.EntityPlayer;
 import com.smartdawgs.game.sound.SoundManager;
+import com.smartdawgs.game.world.HouseEnigme1;
 import com.smartdawgs.game.world.World;
 import lombok.Getter;
 

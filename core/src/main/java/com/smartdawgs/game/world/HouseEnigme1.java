@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.smartdawgs.game.Main;
 
-public class HouseEnigme1 implements Screen {
+public class HouseEnigme1 extends WorldElement {
     private Main game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -20,17 +20,7 @@ public class HouseEnigme1 implements Screen {
     float worldHeight;
 
     public HouseEnigme1(Main game) {
-        this.game = game;
-        this.batch = new SpriteBatch();
-
-        this.map=new TmxMapLoader().load("TiledMap/TestBillard.tmx");
-        this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
-
-        this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
-        this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
-        this.camera=new OrthographicCamera();
-        this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
+        super(game, "GameJamTiledMap");
     }
 
 
