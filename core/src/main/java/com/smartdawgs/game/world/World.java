@@ -6,27 +6,34 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.entity.Entity;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World implements Screen {
+    @Getter
     private Main game;
     private SpriteBatch batch;
+    private SpriteBatch hudBatch;
+    @Getter
     private OrthographicCamera camera;
+    @Getter
     private FitViewport viewport;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -37,13 +44,18 @@ public class World implements Screen {
     private float oldX;
     private float oldY;
 
+    @Getter
+    private List<Entity> entities;
+
     public World(Main game) {
         this.game = game;
         this.batch = new SpriteBatch();
+        this.hudBatch = new SpriteBatch();
+
+        this.entities = new ArrayList<>();
 
         this.map=new TmxMapLoader().load("TiledMap/GameJamTiledMap.tmx");
         this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
 
         this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
         this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
@@ -51,6 +63,8 @@ public class World implements Screen {
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
 
         this.layerCollision = map.getLayers().get("collision").getObjects();
+
+        EntityRegister.registerEntities(this);
     }
 
     @Override
@@ -58,12 +72,14 @@ public class World implements Screen {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
         this.game.getPlayer().setPosition(worldWidth/2, worldHeight/2);
+        this.entities.get(0).setPosition(worldWidth/2, worldHeight/2);
+        this.entities.get(1).setPosition(worldWidth/2, worldHeight/2 + 100);
+
+        this.entities.get(2).setPosition(worldWidth/2 + 100, worldHeight/2);
     }
 
     @Override
     public void render(float v) {
-
-        this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
         logic();
         draw();
     }
@@ -71,12 +87,20 @@ public class World implements Screen {
     public void logic() {
         updateCamera();
         collision();
+        updateEntities(Gdx.graphics.getDeltaTime());
         playerLimit();
+    }
+
+    public void updateEntities(float delta){
+        this.game.getPlayer().update(delta);
+        for(Entity entity : entities){
+            entity.update(delta);
+        }
     }
 
 
     private void updateCamera() {
-        if (map.getLayers().get("piece1").getObjects().getCount() == 0) {
+        if (map.getLayers().get("piece1")==null) {
             camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
             camera.zoom = 0.2f;
         } else {
@@ -106,7 +130,6 @@ public class World implements Screen {
         }
         camera.update();
     }
-
 
 
 
@@ -156,9 +179,6 @@ public class World implements Screen {
         this.oldY = game.getPlayer().getY();
     }
 
-
-
-
     public void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
         viewport.apply();
@@ -176,22 +196,22 @@ public class World implements Screen {
         Rectangle playerRect = game.getPlayer().getPlayerRect();
         shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
 
-//        // Dessiner les rectangles des obstacles
-//        for (MapObject object : this.layerCollision) {
-//            if (object instanceof RectangleMapObject) {
-//                Rectangle obstacleRect = ((RectangleMapObject) object).getRectangle();
-//                shapeRenderer.rect(obstacleRect.x, obstacleRect.y, obstacleRect.width, obstacleRect.height);
-//            }
-//        }
-
         shapeRenderer.end();
 
         // Dessin des sprites
         batch.begin();
-        game.getPlayer().draw(batch);
-        batch.end();
-    }
 
+        for(Entity entity : entities){
+            entity.draw(batch);
+        }
+
+        this.game.getPlayer().draw(batch);
+        batch.end();
+
+        hudBatch.begin();
+        this.game.getPlayer().getInventory().draw(hudBatch);
+        hudBatch.end();
+    }
 
     private void playerLimit() {
         float playerX = this.game.getPlayer().getX();
