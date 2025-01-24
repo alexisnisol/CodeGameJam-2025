@@ -61,7 +61,7 @@ public class World implements Screen {
         this.dialogPanel = new DialogPanel();
         this.stage.addActor(dialogPanel.getTable());
         book = new EntityItemBook("book", "a book", dialogPanel);
-        book.interract();
+        book.interact();
     }
 
     @Override

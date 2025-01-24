@@ -11,8 +11,8 @@ public class EntityItem extends Entity {
         return name;
     }
 
-    public void interract(){
-        // TODO : implement the interraction
+    public void interact(){
+        // TODO : implement the interaction
     }
 
     @Override

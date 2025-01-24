@@ -14,7 +14,7 @@ public class EntityItemBook extends EntityItem {
     }
 
     @Override
-    public void interract(){
+    public void interact(){
         dialogPanel.setText(text);
         dialogPanel.getTable().setVisible(true);
     }
