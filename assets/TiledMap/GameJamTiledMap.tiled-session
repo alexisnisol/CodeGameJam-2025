@@ -3,11 +3,166 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "GameJamTiledMap.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "Backyard - Act 1 Tile.tsx": {
+            "scaleInDock": 0.5
+        },
+        "City Act 1 - Tile map.tsx": {
+            "scaleInDock": 0.33
+        },
+        "DALLE_2025-01-24_06.44-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "DALLE_2025-01-24_06.45-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "DALLE_2025-01-24_06.46.42_-_Create_a_set_of_building_tiles_showing_rear_views-removebg-preview-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "DALLE_2025-01-24_06.46.42_-_Create_a_set_of_building_tiles_showing_rear_views-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "DALLE_2025-01-24_06.46.42_-_Create_a_set_of_building_tiles_showing_rear_views.tsx": {
+            "scaleInDock": 0.5
+        },
+        "FarmHouse1.tsx": {
+            "scaleInDock": 1
+        },
+        "FarmHouse2.tsx": {
+            "scaleInDock": 1
+        },
+        "FarmHouse3.tsx": {
+            "scaleInDock": 1
+        },
+        "FarmHouse4.tsx": {
+            "scaleInDock": 1
+        },
+        "FarmHouse5.tsx": {
+            "scaleInDock": 1
+        },
+        "GameJamTiledMap.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 1451,
+                "y": 1310
+            }
+        },
+        "HorrorHouse1.tsx": {
+            "scaleInDock": 1
+        },
+        "HorrorHouse2.tsx": {
+            "scaleInDock": 1
+        },
+        "HorrorHouse3.tsx": {
+            "scaleInDock": 1
+        },
+        "HorrorHouse4.tsx": {
+            "scaleInDock": 1
+        },
+        "HorrorHouse5.tsx": {
+            "scaleInDock": 1
+        },
+        "Hospital.tsx": {
+            "scaleInDock": 1
+        },
+        "MarketPlace1.tsx": {
+            "scaleInDock": 1
+        },
+        "MarketPlace2.tsx": {
+            "scaleInDock": 1
+        },
+        "MedievalHousesFree2.tsx": {
+            "scaleInDock": 1
+        },
+        "SmallHouse1.tsx": {
+            "scaleInDock": 1
+        },
+        "SmallHouse2.tsx": {
+            "scaleInDock": 1
+        },
+        "SmallHouse3.tsx": {
+            "scaleInDock": 1
+        },
+        "SmallHouse4.tsx": {
+            "scaleInDock": 1
+        },
+        "SmallHouse5.tsx": {
+            "scaleInDock": 1
+        },
+        "Suspect House - Act 1 - Tiles.tsx": {
+            "scaleInDock": 0.75
+        },
+        "Tile Map - Entrance Apartment Act 1.tsx": {
+            "scaleInDock": 1
+        },
+        "blanc_horizon.tsx": {
+            "scaleInDock": 1
+        },
         "blanc_vertical.tsx": {
+            "scaleInDock": 1
+        },
+        "book shop2 (1).tsx": {
+            "scaleInDock": 1
+        },
+        "ced3d1dd-2398-4cd3-8372-25f64833ae0d-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "examples.tsx": {
+            "scaleInDock": 1
+        },
+        "examples_2.tsx": {
+            "scaleInDock": 1
+        },
+        "image-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "image1-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "image2-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "image3-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "image4-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "largeHouse1.tsx": {
+            "scaleInDock": 1
+        },
+        "largeHouse2.tsx": {
+            "scaleInDock": 1
+        },
+        "largeHouse3.tsx": {
+            "scaleInDock": 1
+        },
+        "largeHouse4.tsx": {
+            "scaleInDock": 1
+        },
+        "largeHouse5.tsx": {
+            "scaleInDock": 1
+        },
+        "m.tsx": {
+            "scaleInDock": 1
+        },
+        "maisons.tsx": {
+            "scaleInDock": 1
+        },
+        "maisonsgpt.tsx": {
+            "scaleInDock": 0.25
+        },
+        "mirrored_building_tiles-removebg-preview.tsx": {
+            "scaleInDock": 1
+        },
+        "route.tsx": {
+            "scaleInDock": 0.5
+        },
+        "tileset_autumn.tsx": {
             "scaleInDock": 1
         }
     },
@@ -15,9 +170,11 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 75,
     "openFiles": [
+        "GameJamTiledMap.tmx"
     ],
     "project": "GameJamTiledMap.tiled-project",
     "recentFiles": [
+        "GameJamTiledMap.tmx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx"
