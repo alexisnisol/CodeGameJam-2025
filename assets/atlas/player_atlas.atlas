@@ -1,0 +1,12 @@
+player_atlas.png
+size:512,512
+repeat:none
+player_1
+bounds:2,2,48,48
+player_2
+bounds:2,2,96,96
+player_move_1
+bounds:3,3,48,48
+player_move_2
+bounds:3,3,96,96
+

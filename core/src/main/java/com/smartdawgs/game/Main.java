@@ -1,27 +1,24 @@
 package com.smartdawgs.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.smartdawgs.game.entity.EntityPlayer;
 import com.smartdawgs.game.sound.SoundManager;
+import com.smartdawgs.game.world.World;
+import lombok.Getter;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
 
+    @Getter
     private EntityPlayer player;
     private SoundManager soundManager;
 
-    public EntityPlayer getPlayer() {
-        return player;
-    }
-
     @Override
     public void create() {
-        player = new EntityPlayer();
-        //setScreen(new GameScreen(this));
+        TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
+        player = new EntityPlayer(playerAtlas);
+        this.setScreen(new World(this));
         soundManager = new SoundManager();
         soundManager.playMusic();
     }
