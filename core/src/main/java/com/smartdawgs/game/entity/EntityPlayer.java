@@ -3,6 +3,7 @@ package com.smartdawgs.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.smartdawgs.game.gui.DialogPanel;
 
 public class EntityPlayer {
     private Vector2 position;
@@ -54,6 +55,9 @@ public class EntityPlayer {
         } else {
             stop();
         }
+    }
 
+    public void interact(EntityItem item) {
+        // TODO : implement
     }
 }
