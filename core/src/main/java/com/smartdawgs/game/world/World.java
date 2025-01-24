@@ -108,7 +108,7 @@ public class World implements Screen {
             float x = (float) object.getProperties().get("x", Float.class);
             float y = (float) object.getProperties().get("y", Float.class);
 
-            if (Math.abs(x - this.game.getPlayer().getX()) < 10f || Math.abs(y - this.game.getPlayer().getY()) < 10f) {
+            if ((Math.abs(x - this.game.getPlayer().getX()) < 50f || Math.abs(x + this.game.getPlayer().getX()) < 50f ) && (Math.abs(y - this.game.getPlayer().getY()) < 50f || Math.abs(y + this.game.getPlayer().getY()) < 50f )) {
                 labelHouse1.setVisible(true);
                 labelHouse1.setText("Appuyez sur la touche 'F'");
                 labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
