@@ -77,8 +77,6 @@ public class World implements Screen {
 
     @Override
     public void render(float v) {
-
-        this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
         logic();
         draw();
     }
