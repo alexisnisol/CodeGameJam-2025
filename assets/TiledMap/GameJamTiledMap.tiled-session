@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "GameJamTiledMap.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
         "Backyard - Act 1 Tile.tsx": {
-            "scaleInDock": 0.33
+            "scaleInDock": 0.5
         },
         "City Act 1 - Tile map.tsx": {
             "scaleInDock": 0.33
@@ -94,13 +94,10 @@
             "scaleInDock": 1
         },
         "Suspect House - Act 1 - Tiles.tsx": {
-            "scaleInDock": 0.33
+            "scaleInDock": 0.75
         },
         "Tile Map - Entrance Apartment Act 1.tsx": {
-            "scaleInDock": 0.5
-        },
-        "UNo513-Photoroom.tsx": {
-            "scaleInDock": 1.5
+            "scaleInDock": 1
         },
         "blanc_horizon.tsx": {
             "scaleInDock": 1
