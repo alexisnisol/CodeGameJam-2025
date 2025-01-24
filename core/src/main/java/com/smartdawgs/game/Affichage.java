@@ -67,6 +67,7 @@ public class Affichage implements Screen {
         playerLimit();
     }
 
+
     private void updateCamera() {
         camera.position.set(jeu.getPlayer().getX(),jeu.getPlayer().getY(),0);
         camera.update();
