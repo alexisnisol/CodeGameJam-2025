@@ -73,10 +73,6 @@ public class World implements Screen {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
         this.game.getPlayer().setPosition(worldWidth/2, worldHeight/2);
-        this.entities.get(0).setPosition(worldWidth/2, worldHeight/2);
-        this.entities.get(1).setPosition(worldWidth/2, worldHeight/2 + 100);
-
-        this.entities.get(2).setPosition(worldWidth/2 + 100, worldHeight/2);
     }
 
     @Override

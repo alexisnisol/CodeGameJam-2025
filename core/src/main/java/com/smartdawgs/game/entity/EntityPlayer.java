@@ -93,7 +93,11 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            this.useItem();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
             this.interaction();
         }
 
@@ -103,6 +107,12 @@ public class EntityPlayer extends Entity{
                 System.out.println("Item " + item + " was dropped");
                 this.world.getEntities().add(item.spawn(this.getX(), this.getY()));
             }
+        }
+    }
+
+    private void useItem() {
+        if(this.inventory.getCurrentItem() != null){
+            this.inventory.getCurrentItem().onUse();
         }
     }
 
