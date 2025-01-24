@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.smartdawgs.game.entity.enums.Direction;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +19,8 @@ public class EntityPlayer extends Entity{
     @Getter
     @Setter
     private float speed;
-    private Polygon polygon;
-
+    private Rectangle playerRect;
+    private Animation<TextureRegion> animation;
     private float stateTime;
     private Animation<TextureRegion> currentAnimation;
     private Direction direction;
@@ -37,10 +39,9 @@ public class EntityPlayer extends Entity{
 
     public EntityPlayer(TextureAtlas atlas) {
         super(atlas.findRegion("player_idle_1"));
-        float[] dimensions={1,1,1,1,1,1,1,1};
-        polygon=new Polygon(dimensions);
-        polygon.setPosition(getX(),getY());
-        this.speed=200f;
+        playerRect =new Rectangle(2, 2, 33, 38);
+        playerRect.setPosition(getX(),getY());
+        this.speed=100f;
         this.setScale(2.0f);
 
         idleAnimation = createAnimation(atlas, "player_idle", 5, 0.1f);
@@ -54,10 +55,8 @@ public class EntityPlayer extends Entity{
         stateTime = 1f;
     }
 
-
-
-    public Polygon getPlayerPolygon() {
-        return this.polygon;
+    public Rectangle getPlayerRect() {
+        return this.playerRect;
     }
 
     public void update(float delta) {
@@ -84,6 +83,9 @@ public class EntityPlayer extends Entity{
             this.direction = Direction.RIGHT;
             this.isMoving = true;
         }
+
+        playerRect.setPosition(getX() + 7,getY() - 8);
+
     }
 
     @Override
@@ -118,6 +120,7 @@ public class EntityPlayer extends Entity{
         } else if (direction == Direction.RIGHT && currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         }
+
         batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }
