@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Color;
 import com.smartdawgs.game.entity.EntityPlayer;
+import com.smartdawgs.game.sound.SoundManager;
 
 public class DialogPanel {
     private Label dialogLabel;
@@ -15,10 +16,12 @@ public class DialogPanel {
     private Table table;
     private BitmapFont font;
     private EntityPlayer player;
+    private SoundManager soundManager;
 
 
-    public DialogPanel(EntityPlayer player) {
+    public DialogPanel(EntityPlayer player, SoundManager soundManager) {
         this.player = player;
+        this.soundManager = soundManager;
         font = new BitmapFont();
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         initTitle();
@@ -67,11 +70,13 @@ public class DialogPanel {
     public void draw() {
         reposition();
         this.player.setSpeed(0f);
+        this.soundManager.setFacteurVolume(1f);
         this.table.setVisible(true);
     }
 
     public void hide() {
         this.player.setSpeed(100f);
+        this.soundManager.setFacteurVolume(1f);
         this.table.setVisible(false);
     }
 

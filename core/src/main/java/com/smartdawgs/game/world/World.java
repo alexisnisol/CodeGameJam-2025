@@ -56,7 +56,9 @@ public class World implements Screen {
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
 
         this.stage = new Stage(viewport);
-        this.dialogPanel = new DialogPanel(game.getPlayer());
+        System.out.println(game.getSoundManager());
+        this.dialogPanel = new DialogPanel(game.getPlayer(), game.getSoundManager());
+
         this.stage.addActor(dialogPanel.getTable());
 
         this.layerCollision = map.getLayers().get("collision").getObjects();
@@ -77,6 +79,11 @@ public class World implements Screen {
     }
 
     public void logic() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            dialogPanel.draw();
+        } else {
+            dialogPanel.hide();
+        }
         updateCamera();
         collision();
         playerLimit();

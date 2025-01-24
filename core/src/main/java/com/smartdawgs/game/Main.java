@@ -12,17 +12,17 @@ public class Main extends Game {
 
     @Getter
     private EntityPlayer player;
+    @Getter
     private SoundManager soundManager;
 
     @Override
     public void create() {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
         player = new EntityPlayer(playerAtlas);
-        this.setScreen(new World(this));
         soundManager = new SoundManager();
+        this.setScreen(new World(this));
         soundManager.playMusic();
     }
-
 
     @Override
     public void render() {
