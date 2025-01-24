@@ -12,7 +12,7 @@ public class SoundManager implements Disposable {
 
     public SoundManager() {
         miniAudio = new MiniAudio();
-        musicVolume = 0f;
+        musicVolume = 1f;
         randomMusic();
     }
 

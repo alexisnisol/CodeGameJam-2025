@@ -1,6 +1,7 @@
 package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -61,10 +62,10 @@ public class World implements Screen {
         this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
         this.camera=new OrthographicCamera();
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
-        this.dialogPanel = new DialogPanel(game.getPlayer(), game.getSoundManager());
         this.layerCollision = map.getLayers().get("collision").getObjects();
 
         EntityRegister.registerEntities(this);
+        this.dialogPanel = new DialogPanel(this.game);
     }
 
     @Override
@@ -182,6 +183,7 @@ public class World implements Screen {
         batch.end();
 
         hudBatch.begin();
+        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
         this.game.getPlayer().getInventory().draw(hudBatch);
         hudBatch.end();
     }

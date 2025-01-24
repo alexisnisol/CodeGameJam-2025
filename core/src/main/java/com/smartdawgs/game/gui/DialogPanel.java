@@ -7,21 +7,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Color;
+import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.EntityPlayer;
 import com.smartdawgs.game.sound.SoundManager;
+import lombok.Getter;
 
 public class DialogPanel {
     private Label dialogLabel;
     private Label title;
-    private Table table;
-    private BitmapFont font;
-    private EntityPlayer player;
-    private SoundManager soundManager;
+    @Getter
+    private final Table table;
+    private final BitmapFont font;
+    private final Main game;
+    @Getter
+    private float parentAlpha;
 
 
-    public DialogPanel(EntityPlayer player, SoundManager soundManager) {
-        this.player = player;
-        this.soundManager = soundManager;
+    public DialogPanel(Main game) {
+        this.game = game;
         font = new BitmapFont();
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         initTitle();
@@ -46,38 +49,29 @@ public class DialogPanel {
     public void initTable(Skin skin) {
         table.setWidth(Gdx.graphics.getWidth());
         table.setHeight(Gdx.graphics.getHeight() / 3f);
-        table.setPosition(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f);
-        table.add(title).width(Gdx.graphics.getWidth() / 2f - 10).expand().align(Align.center).row();
-        table.add(dialogLabel).width(Gdx.graphics.getWidth() / 2f - 10).expand().align(Align.center);
-        table.setVisible(false);
+        table.add(title).width(Gdx.graphics.getWidth() / 2f - 10).expand().align(Align.top).row();
+        table.add(dialogLabel).width(Gdx.graphics.getWidth() / 2f - 10).expand().align(Align.top);
         table.setBackground(skin.newDrawable("default-round", Color.DARK_GRAY));
+        this.parentAlpha = 0f;
     }
 
     public void setText(String text) {
         dialogLabel.setText(text);
     }
-
-    public void reposition() {
-        float x = player.getX() - (float) Gdx.graphics.getWidth() / 2;
-        float y = player.getY() - (float) Gdx.graphics.getHeight() / 2;
-        table.setPosition(x, y);
-    }
-
-    public Table getTable() {
-        return table;
+    public void setTitle(String text) {
+        title.setText(text);
     }
 
     public void draw() {
-        reposition();
-        this.player.setSpeed(0f);
-        this.soundManager.setFacteurVolume(1f);
-        this.table.setVisible(true);
+        this.game.getPlayer().setSpeed(0f);
+        this.game.getSoundManager().setFacteurVolume(0f);
+        this.parentAlpha = 1f;
     }
 
     public void hide() {
-        this.player.setSpeed(100f);
-        this.soundManager.setFacteurVolume(1f);
-        this.table.setVisible(false);
+        this.game.getPlayer().setSpeed(100f);
+        this.game.getSoundManager().setFacteurVolume(1f);
+        this.parentAlpha = 0f;
     }
 
     public void dispose() {

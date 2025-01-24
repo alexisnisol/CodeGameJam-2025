@@ -13,7 +13,9 @@ import lombok.Getter;
 @Getter
 public class Main extends Game {
 
+    @Getter
     private EntityPlayer player;
+    @Getter
     private SoundManager soundManager;
     private BitmapFont font;
     private GlyphLayout glyphLayout;
@@ -23,9 +25,9 @@ public class Main extends Game {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
         World world = new World(this);
         this.player = new EntityPlayer(playerAtlas, world);
-        this.setScreen(world);
         soundManager = new SoundManager();
         soundManager.playMusic();
+        this.setScreen(world);
         this.font = new BitmapFont();
         this.glyphLayout = new GlyphLayout();
     }
