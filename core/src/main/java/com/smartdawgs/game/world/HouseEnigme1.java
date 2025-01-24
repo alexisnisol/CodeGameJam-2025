@@ -20,7 +20,7 @@ public class HouseEnigme1 extends WorldElement {
     float worldHeight;
 
     public HouseEnigme1(Main game) {
-        super(game, "GameJamTiledMap");
+        super(game, "chambrepersonnelle");
     }
 
 
