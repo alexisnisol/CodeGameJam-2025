@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.gui.DialogPanel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class World implements Screen {
     private MapObjects layerCollision;
     private float oldX;
     private float oldY;
+    private DialogPanel dialogPanel;
     private Stage stage;
     private Label labelHouse1;
     private BitmapFont bitmapFont;
@@ -88,6 +90,7 @@ public class World implements Screen {
 
         stage.addActor(labelHouse1);  // Ajout du label à la scène
         EntityRegister.registerEntities(this);
+        this.dialogPanel = new DialogPanel(this.game);
     }
 
     @Override
@@ -224,7 +227,6 @@ public class World implements Screen {
 
     public void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
-
         viewport.apply();
         mapRenderer.setView(camera);
 
@@ -244,6 +246,7 @@ public class World implements Screen {
         batch.end();
 
         hudBatch.begin();
+        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
         this.game.getPlayer().getInventory().draw(hudBatch);
         hudBatch.end();
 
@@ -264,7 +267,6 @@ public class World implements Screen {
 
 
     }
-
 
     private void playerLimit() {
         float playerX = this.game.getPlayer().getX();
