@@ -45,7 +45,7 @@ public class EntityPlayer extends Entity{
         return this.polygon;
     }
 
-    public void update(float delta, EntityItem item) {
+    public void update(float delta) {
         stateTime += delta;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -60,29 +60,13 @@ public class EntityPlayer extends Entity{
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.translateX(speed * delta);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            item.interract();
-        }
-    }
 
-    /**
-     * Handle freeze
-     * @return true si aucune touche n'est pressée (continuer la boucle), false sinon
-     */
-    public boolean handleFreeze(float delta) {
-        stateTime += delta;
-        // if space or click is pressed, return true
-        return !(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched());
+
     }
 
     @Override
     public void draw(Batch batch) {
         TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-    }
-
-    @Override
-    public void update(float delta) {
-        // TODO Auto-generated method stub
     }
 }
