@@ -34,7 +34,8 @@ public class HouseEnigme1 extends WorldElement {
         switch (labAction) {
             case "":
                 //parent.init(nom);
-                this.game.setScreen(new World(this.game).init(nom));
+                parent.show();
+                this.game.setScreen(parent.init(nom));
                 this.dispose();
                 break;
             default:
@@ -51,7 +52,7 @@ public class HouseEnigme1 extends WorldElement {
 
     private void checkPlace() {
 
-        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 10f);
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null) {
             labelInteraction.setVisible(true);

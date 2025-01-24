@@ -12,7 +12,7 @@ public class EntityRegister {
     public static final Item MUSHROOM = new Item("Test", new Texture("items/mushroom.png"));
 
     public static void registerEntities(WorldElement world) {
-        world.getEntities().add(new EntityItem(world, MUSHROOM).spawn(300, 100));
+        world.getEntities().add(new EntityItem(world, MUSHROOM).spawn(300, 400));
         world.getEntities().add(new EntityItem(world, MUSHROOM).spawn(300, 100));
         world.getEntities().add(new EntityItemBook(world, MUSHROOM).spawn(300, 100));
     }

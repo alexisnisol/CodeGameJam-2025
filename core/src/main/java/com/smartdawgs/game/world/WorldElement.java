@@ -38,7 +38,9 @@ public abstract class WorldElement implements Screen {
     protected FitViewport viewport;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
+    @Getter
     protected float worldWidth;
+    @Getter
     protected float worldHeight;
 
     protected Stage stage;
@@ -114,13 +116,6 @@ public abstract class WorldElement implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         this.viewport.apply();
         batch.setProjectionMatrix(this.viewport.getCamera().combined);
-
-        hudBatch.begin();
-        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
-        this.game.getPlayer().getInventory().draw(hudBatch);
-        hudBatch.end();
-
-
     }
 
     public void postRender() {
@@ -131,6 +126,12 @@ public abstract class WorldElement implements Screen {
 
         this.game.getPlayer().draw(batch);
         batch.end();
+
+
+        hudBatch.begin();
+        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
+        this.game.getPlayer().getInventory().draw(hudBatch);
+        hudBatch.end();
 
         stage.act();
         stage.draw();
@@ -178,7 +179,6 @@ public abstract class WorldElement implements Screen {
     public void show() {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
-        //this.game.getPlayer().setPosition(worldWidth / 2, worldHeight / 2);
         this.labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
     }
 

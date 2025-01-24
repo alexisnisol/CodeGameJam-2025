@@ -6,7 +6,10 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.utils.WorldUtils;
+
+import java.util.List;
 
 public class World extends WorldElement {
     private float stateTime = 0;
@@ -16,6 +19,12 @@ public class World extends WorldElement {
 
     public World(Main game) {
         super(game, "GameJamTiledMap");
+    }
+
+    public World(Main game, List<Entity> entities) {
+        super(game, "GameJamTiledMap");
+        this.entities = entities;
+        this.game.getPlayer().setWorld(this);
     }
 
     @Override
@@ -28,7 +37,9 @@ public class World extends WorldElement {
                     testFirstPassage = false;
                 }*/
                 this.game.setScreen(new HouseEnigme1(this));
-                this.dispose();
+                this.hide();
+                //this.dispose();
+
                 //houseEnigme1.render(delta);
                 break;
 
@@ -48,7 +59,7 @@ public class World extends WorldElement {
     }
 
     private void checkPlace() {
-        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("Label"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 10f);
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("Label"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null){
             labelInteraction.setVisible(true);
@@ -88,14 +99,9 @@ public class World extends WorldElement {
         super.postRender();
     }
 
-    public void init() {
-
-    }
-
     public WorldElement init(String pointSortie) {
         Vector2 position = WorldUtils.getPoint(map.getLayers().get("Label"), pointSortie);
-        System.out.println("AAA" + position);
-        this.game.getPlayer().setPosition(position.x+1000, position.y);
+        this.game.getPlayer().setPosition(position.x, position.y);
         labAction = "";
         return this;
     }

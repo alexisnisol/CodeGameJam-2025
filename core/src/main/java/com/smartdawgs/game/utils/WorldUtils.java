@@ -36,6 +36,6 @@ public class WorldUtils {
     }
 
     public static boolean distanceBetweenPoints(float x1, float y1, float x2, float y2, float distance) {
-        return Math.abs(x1 - x2) < distance || Math.abs(y1 - y2) < distance;
+        return (Math.abs(x1 - x2) < distance || Math.abs(x1 + x2) < distance) && (Math.abs(y1 - y2) < distance || Math.abs(y1 + y2) < distance);
     }
 }

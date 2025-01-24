@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.entity.items.EntityItem;
 import com.smartdawgs.game.gui.Inventory;
 import com.smartdawgs.game.utils.enums.Direction;
 import com.smartdawgs.game.world.World;
+import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +33,8 @@ public class EntityPlayer extends Entity{
 
 
     @Getter
-    private World world;
+    @Setter
+    private WorldElement world;
 
     @Getter
     private Inventory inventory;
@@ -65,6 +68,8 @@ public class EntityPlayer extends Entity{
         walkBackAnimation = createAnimation(atlas, "player_walk_back", 5, 0.1f);
 
         stateTime = 1f;
+
+        this.setPosition(this.world.getWorldWidth() / 2, this.world.getWorldHeight() / 2);
     }
 
     public void update(float delta) {
@@ -96,11 +101,18 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && stateTime - deltaTest > 0.5) {
             this.useItem();
+            deltaTest = stateTime;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
             this.interaction();
+            deltaTest = stateTime;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.Y) && stateTime - deltaTest > 0.5){
+            this.world.getEntities().add(new EntityItem(this.world, EntityRegister.MUSHROOM).spawn(this.getX(), this.getY()));
+            deltaTest = stateTime;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.G) || Gdx.input.isKeyPressed(Input.Keys.P)) {
