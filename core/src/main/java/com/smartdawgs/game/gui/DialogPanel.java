@@ -21,14 +21,26 @@ public class DialogPanel {
         this.player = player;
         font = new BitmapFont();
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        initTitle();
+        initContent();
+        table = new Table();
+        initTable(skin);
+    }
+
+    public void initTitle() {
         title = new Label("Dialog", new Label.LabelStyle(font, Color.WHITE));
         title.setAlignment(Align.center);
         title.setWidth(Gdx.graphics.getWidth() / 2f - 10);
+    }
+
+    public void initContent(){
         dialogLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
         dialogLabel.setWrap(true);
         dialogLabel.setAlignment(Align.center);
         dialogLabel.setWidth(Gdx.graphics.getWidth() / 2f - 10);
-        table = new Table();
+    }
+
+    public void initTable(Skin skin) {
         table.setWidth(Gdx.graphics.getWidth());
         table.setHeight(Gdx.graphics.getHeight() / 3f);
         table.setPosition(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f);
