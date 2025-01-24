@@ -6,13 +6,39 @@ import games.rednblack.miniaudio.MiniAudio;
 
 public class SoundManager implements Disposable {
     private final MiniAudio miniAudio;
-    private final MASound music;
+    private MASound music;
     private float musicVolume;
 
     public SoundManager() {
         miniAudio = new MiniAudio();
-        music = miniAudio.createSound("dark_fantasy.mp3");
         musicVolume = 1f;
+        randomMusic();
+    }
+
+    // enumération de toutes le musiques
+    private enum Music {
+        MUSIC_1("musiques/dark_fantasy.mp3"),
+        MUSIC_2("musiques/beethoven.mp3"),
+        MUSIC_3("musiques/epic_intro.mp3"),
+        MUSIC_4("musiques/halloween.mp3");
+
+        private final String path;
+
+        Music(String path) {
+            this.path = path;
+        }
+
+        public String getPath() {
+            return path;
+        }
+    }
+
+    private void randomMusic() {
+        Music[] musics = Music.values();
+        int random = (int) (Math.random() * musics.length);
+        music = miniAudio.createSound(musics[random].getPath());
+        music.setVolume(musicVolume);
+        music.setLooping(true);
     }
 
     public void playMusic() {
@@ -21,16 +47,18 @@ public class SoundManager implements Disposable {
 
     public void musicVolumeUp(float volumeUnit) {
         this.musicVolume += volumeUnit;
-        music.setVolume(musicVolume);
+        if (this.musicVolume < 1){
+            music.setVolume(musicVolume);
+        }
     }
 
     public void musicVolumeDown(float volumeUnit) {
         if (this.musicVolume - volumeUnit < 0) {
             this.musicVolume = 0;
-        } else {
+        } else if (this.musicVolume <= 1f) {
             this.musicVolume -= volumeUnit;
+            music.setVolume(musicVolume);
         }
-        music.setVolume(musicVolume);
     }
 
     public void stopMusic() {
