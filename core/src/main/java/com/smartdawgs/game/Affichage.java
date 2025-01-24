@@ -1,5 +1,6 @@
 package com.smartdawgs.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -54,6 +55,7 @@ public class Affichage implements Screen {
 
     @Override
     public void render() {
+        jeu.getPlayer().update(Gdx.graphics.getDeltaTime());
         logic();
         draw();
     }
@@ -147,7 +149,6 @@ public class Affichage implements Screen {
     @Override
     public void dispose() {
         jeu.dispose();
-        renderer.dispose();
         map.dispose();
     }
 }
