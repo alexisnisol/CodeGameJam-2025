@@ -2,66 +2,52 @@ package com.smartdawgs.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-public class EntityPlayer {
-    private Vector2 position;
-    private Vector2 velocity;
+public class EntityPlayer extends Sprite{
+    private TextureAtlas atlas;
+    private float speed;
+    private Polygon polygon;
 
-    public float getX(){
-        return position.x;
+    public EntityPlayer(TextureAtlas atlas) {
+        super(atlas.findRegion("player"));
+        float[] dimensions={1,1,1,1,1,1,1,1};//valeurs dimensions polygone joueur à changer quand on aura la texture
+        polygon=new Polygon(dimensions);
+        polygon.setPosition(getX(),getY());
+        this.speed=100f;
     }
 
-    public float getY(){
-        return position.y;
+    public float getSpeed() {
+        return this.speed;
     }
 
-
-    public void update(float deltaTime){
-        // On déplace la position théorique pas l'image pour l'instant
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
-    public void move(float x, float y) {
-        velocity.set(x, y);
-        System.out.println("MOVE " + position);
-    }
-
-    public void stop() {
-        velocity.set(0, 0);
-        System.out.println("STOP " + position);
+    public Polygon getPlayerPolygon() {
+        return this.polygon;
     }
 
 
-    public void handleInput() {
-        // On peux définir la vitesse du joueur
-        float speedX = 40f;
-        float speedY = 25f;
-
-
-        if ((Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))) {
-            move(-speedX, speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))) {
-            move(speedX, speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
-            move(-speedX, -speedY);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) &&
-            (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
-            move(speedX, -speedY);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            move(-speedX, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            move(speedX, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            move(0, speedY);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            move(0, -speedY);
-        } else {
-            stop();
+    public void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            this.setY(this.getY() + speed * delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            this.setY(this.getY() - speed * delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            this.setX(this.getX() - speed * delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            this.setX(this.getX() + speed * delta);
         }
 
+        polygon.setPosition(getX(), getY());
     }
 }
