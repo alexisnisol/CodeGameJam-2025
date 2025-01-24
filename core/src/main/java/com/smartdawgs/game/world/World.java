@@ -5,14 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.gui.DialogPanel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +43,14 @@ public class World extends WorldElement {
 
     @Setter
     private boolean testFirstPassage = false;
+    private MapObjects layerCollision;
+    private float oldX;
+    private float oldY;
+    private DialogPanel dialogPanel;
+    private Stage stage;
+    private Label labelHouse1;
+    private BitmapFont bitmapFont;
+    private String labAction;
 
     @Getter
     private List<Entity> entities;
@@ -78,6 +88,7 @@ public class World extends WorldElement {
         stage.addActor(labelHouse1);  // Ajout du label à la scène
 
         EntityRegister.registerEntities(this);
+        this.dialogPanel = new DialogPanel(this.game);
     }
 
     @Override
@@ -105,10 +116,17 @@ public class World extends WorldElement {
     public void logic() {
         updateCamera();
         collision();
+        updateEntities(Gdx.graphics.getDeltaTime());
         playerLimit();
         checkPlace();
     }
 
+    public void updateEntities(float delta){
+        this.game.getPlayer().update(delta);
+        for(Entity entity : entities){
+            entity.update(delta);
+        }
+    }
 
     private void updateCamera() {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
@@ -183,10 +201,35 @@ public class World extends WorldElement {
                     }
                 }
             }
+            else  if (object instanceof PolygonMapObject) {
+                // Récupérer le polygone
+                Polygon polygon = ((PolygonMapObject) object).getPolygon();
+
+                // Convertir le rectangle du joueur en polygone temporaire
+                Polygon playerPolygon = rectangleToPolygon(game.getPlayer().getPlayerRect());
+
+                // Vérifier la collision entre le polygone du joueur et celui de l'objet
+                if (Intersector.overlapConvexPolygons(playerPolygon, polygon)) {
+                    game.getPlayer().setX(oldX); // Revenir à l'ancienne position
+                    game.getPlayer().setY(oldY);
+                }
+            }
         }
         // Sauvegarder la position actuelle pour la prochaine itération
         this.oldX = game.getPlayer().getX();
         this.oldY = game.getPlayer().getY();
+    }
+
+
+    // Méthode utilitaire pour convertir un Rectangle en Polygon
+    private Polygon rectangleToPolygon(Rectangle rectangle) {
+        float[] vertices = new float[]{
+            rectangle.x, rectangle.y,  // Bottom-left
+            rectangle.x + rectangle.width, rectangle.y,  // Bottom-right
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height,  // Top-right
+            rectangle.x, rectangle.y + rectangle.height  // Top-left
+        };
+        return new Polygon(vertices);
     }
 
 
@@ -197,26 +240,37 @@ public class World extends WorldElement {
         mapRenderer.setView(camera);
         mapRenderer.render();
 
-        // Utilisation de ShapeRenderer pour afficher les rectangles
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("grass"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("road"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("floor"));
+        mapRenderer.getBatch().end();
 
-        // Dessiner le rectangle du joueur
-        Rectangle playerRect = game.getPlayer().getPlayerRect();
-        shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
+        batch.begin();
+        for(Entity entity : entities){
+            entity.draw(batch);
+        }
+        this.game.getPlayer().draw(batch);
+        batch.end();
 
-        shapeRenderer.end();
+        hudBatch.begin();
+        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
+        this.game.getPlayer().getInventory().draw(hudBatch);
+        hudBatch.end();
+
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("trottoire"));
+
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("tree1"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("tree2"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("batiment"));
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("batiment2"));
+
+        mapRenderer.getBatch().end();
+
         stage.act();
         stage.draw();
-        // Dessin des sprites
-        batch.begin();
-
-        game.getPlayer().draw(batch);
-
-        batch.end();
     }
-
 
     private void playerLimit() {
         float playerX = this.game.getPlayer().getX();
@@ -247,10 +301,7 @@ public class World extends WorldElement {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
         this.game.getPlayer().setPosition(worldWidth / 2, worldHeight / 2);
-        this.entities.get(0).setPosition(worldWidth / 2, worldHeight / 2);
-        this.entities.get(1).setPosition(worldWidth / 2, worldHeight / 2 + 100);
-
-        this.entities.get(2).setPosition(worldWidth / 2 + 100, worldHeight / 2);
+        labelHouse1.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
     }
 
     public void firstPassage(String pointSortie) {
@@ -261,9 +312,17 @@ public class World extends WorldElement {
                     float x = (float) object.getProperties().get("x", Float.class);
                     float y = (float) object.getProperties().get("y", Float.class);
                     this.game.getPlayer().setPosition(x, y);
-                    labAction = "";}
-
+                    labAction = "";
+                }
             }
         }
     }
+
+    @Override
+    public void dispose() {
+        game.dispose();
+        mapRenderer.dispose();
+        map.dispose();
+    }
+
 }

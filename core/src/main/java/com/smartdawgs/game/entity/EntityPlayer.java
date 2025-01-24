@@ -50,7 +50,7 @@ public class EntityPlayer extends Entity{
         super(atlas.findRegion("player_idle_1"));
         playerRect =new Rectangle(2, 2, 33, 38);
         playerRect.setPosition(getX(),getY());
-        this.speed=200f;
+        this.speed=100f;
         this.world = world;
         this.inventory = new Inventory(this);
 
@@ -96,16 +96,12 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
 
-        stateTime += delta;
-
-    if (Gdx.input.isKeyPressed(Input.Keys.F) && (stateTime - deltaTest > 2)) {
-        deltaTest = stateTime;
-        this.useItem();
-        this.interaction();
-        this.changeMap();
-    }
-
-        playerRect.setPosition(getX() + 12, getY() - 15);
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            this.useItem();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            this.interaction();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.G) || Gdx.input.isKeyPressed(Input.Keys.P)) {
             EntityItem item = this.inventory.canDropItem();
@@ -114,10 +110,6 @@ public class EntityPlayer extends Entity{
                 this.world.getEntities().add(item.spawn(this.getX(), this.getY()));
             }
         }
-    }
-
-    private void changeMap(){
-
     }
 
     private void useItem() {
