@@ -8,6 +8,14 @@ public class EntityPlayer {
     private Vector2 position;
     private Vector2 velocity;
 
+    public float getX(){
+        return position.x;
+    }
+
+    public float getY(){
+        return position.y;
+    }
+
 
     public void update(float deltaTime){
         // On déplace la position théorique pas l'image pour l'instant
