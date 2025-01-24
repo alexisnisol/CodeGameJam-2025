@@ -38,7 +38,7 @@ public class EntityPlayer extends Entity{
     private Animation<TextureRegion> walkBackAnimation;
 
     public EntityPlayer(TextureAtlas atlas) {
-        super(atlas.findRegion("player_1"));
+        super(atlas.findRegion("player_idle_1"));
         playerRect =new Rectangle(2, 2, 33, 38);
         playerRect.setPosition(getX(),getY());
         this.speed=100f;
