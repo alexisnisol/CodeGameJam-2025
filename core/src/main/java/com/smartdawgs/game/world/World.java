@@ -58,6 +58,7 @@ public class World implements Screen {
     private BitmapFont bitmapFont;
     private String labAction;
 
+
     @Getter
     private List<Entity> entities;
 
