@@ -1,4 +1,4 @@
-package com.smartdawgs.game.entity.enums;
+package com.smartdawgs.game.utils.enums;
 
 public enum Direction {
     UP,
