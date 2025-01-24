@@ -31,23 +31,21 @@ public class HouseEnigme1 extends WorldElement {
 
     @Override
     public void render(float delta) {
-        switch (labAction) {
-            case "":
-                //parent.init(nom);
-                parent.show();
-                this.game.setScreen(parent.init(nom));
-                this.dispose();
-                break;
-            default:
-                logic();
-                draw();
-                break;
+        super.render(delta);
+        if (labAction.isEmpty()) {
+            parent.show();
+            this.game.setScreen(parent.init(nom));
+            this.dispose();
+        } else {
+            logic();
+            draw();
         }
     }
 
     public void logic() {
         super.logic();
         checkPlace();
+        this.camera.zoom = 0.1f;
     }
 
     private void checkPlace() {
@@ -58,7 +56,8 @@ public class HouseEnigme1 extends WorldElement {
             labelInteraction.setVisible(true);
             labelInteraction.setText("Appuyez sur la touche 'F'");
             labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-            if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
+                deltaTest = stateTime;
                 labAction = "";
             }
         } else {

@@ -30,6 +30,9 @@ public abstract class WorldElement implements Screen {
     @Getter
     protected Main game;
 
+    protected float stateTime = 0;
+    protected float deltaTest = 0;
+
     protected SpriteBatch batch;
     private SpriteBatch hudBatch;
     private DialogPanel dialogPanel;
@@ -52,12 +55,8 @@ public abstract class WorldElement implements Screen {
     protected float oldX;
     protected float oldY;
 
-    protected boolean changeWorld = false;
-
     @Getter
     protected List<Entity> entities;
-
-    protected boolean testFirstPassage = false;
 
     public WorldElement(Main game, String nameTiledMap) {
         this.game = game;
@@ -91,14 +90,10 @@ public abstract class WorldElement implements Screen {
         stage.addActor(labelInteraction);
 
         EntityRegister.registerEntities(this);
-
-        this.changeWorld = false;
     }
-
 
     protected void init(){
     }
-
 
     protected void updateCamera() {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
@@ -171,8 +166,8 @@ public abstract class WorldElement implements Screen {
     }
 
     @Override
-    public void render(float v) {
-
+    public void render(float delta) {
+        this.stateTime += delta;
     }
 
     @Override
