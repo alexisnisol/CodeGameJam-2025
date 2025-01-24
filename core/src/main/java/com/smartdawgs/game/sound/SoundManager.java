@@ -8,10 +8,11 @@ public class SoundManager implements Disposable {
     private final MiniAudio miniAudio;
     private MASound music;
     private float musicVolume;
+    private float facteurVolume = 1f;
 
     public SoundManager() {
         miniAudio = new MiniAudio();
-        musicVolume = 0f;
+        musicVolume = 1f;
         randomMusic();
     }
 
@@ -31,6 +32,10 @@ public class SoundManager implements Disposable {
         public String getPath() {
             return path;
         }
+    }
+
+    public void setFacteurVolume(float facteurVolume) {
+        this.facteurVolume = facteurVolume;
     }
 
     private void randomMusic() {
@@ -53,10 +58,10 @@ public class SoundManager implements Disposable {
     }
 
     public void musicVolumeDown(float volumeUnit) {
-        if (this.musicVolume - volumeUnit < 0) {
+        if (this.musicVolume - (volumeUnit) < 0) {
             this.musicVolume = 0;
         } else if (this.musicVolume <= 1f) {
-            this.musicVolume -= volumeUnit;
+            this.musicVolume -= volumeUnit * facteurVolume;
             music.setVolume(musicVolume);
         }
     }
