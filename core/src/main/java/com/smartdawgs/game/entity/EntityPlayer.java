@@ -19,6 +19,7 @@ public class EntityPlayer extends Entity{
     @Getter
     @Setter
     private float speed;
+    @Getter
     private Rectangle playerRect;
     private Animation<TextureRegion> animation;
     private float stateTime;
@@ -55,10 +56,6 @@ public class EntityPlayer extends Entity{
         stateTime = 1f;
     }
 
-    public Rectangle getPlayerRect() {
-        return this.playerRect;
-    }
-
     public void update(float delta) {
         stateTime += delta;
 
@@ -92,26 +89,12 @@ public class EntityPlayer extends Entity{
     public void draw(Batch batch) {
         currentAnimation = idleAnimation;
 
-        if (isMoving){
-            if (direction == Direction.UP) {
-                currentAnimation = walkBackAnimation;
-            } else if (direction == Direction.DOWN) {
-                currentAnimation = walkAnimation;
-            } else if (direction == Direction.LEFT) {
-                currentAnimation = walkSideAnimation;
-            } else if (direction == Direction.RIGHT) {
-                currentAnimation = walkSideAnimation;
-            }
-        } else {
-            if (direction == Direction.UP) {
-                currentAnimation = idleBackAnimation;
-            } else if (direction == Direction.DOWN) {
-                currentAnimation = idleAnimation;
-            } else if (direction == Direction.LEFT) {
-                currentAnimation = idleSideAnimation;
-            } else if (direction == Direction.RIGHT) {
-                currentAnimation = idleSideAnimation;
-            }
+        if (direction == Direction.UP) {
+            currentAnimation = isMoving ? walkBackAnimation : idleBackAnimation;
+        } else if (direction == Direction.DOWN) {
+            currentAnimation = isMoving ? walkAnimation : idleAnimation;
+        } else if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+            currentAnimation = isMoving ? walkSideAnimation : idleSideAnimation;
         }
 
         TextureRegion currentFrame = currentAnimation.getKeyFrame(stateTime, true);
