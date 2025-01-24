@@ -1,32 +1,37 @@
 package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.Main;
-import com.smartdawgs.game.entity.items.EntityItemBook;
+import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.gui.DialogPanel;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World implements Screen {
+    @Getter
     private Main game;
     private SpriteBatch batch;
+    private SpriteBatch hudBatch;
+    @Getter
     private OrthographicCamera camera;
+    @Getter
     private FitViewport viewport;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -36,32 +41,30 @@ public class World implements Screen {
     private MapObjects layerCollision;
     private float oldX;
     private float oldY;
-    private Stage stage;
     private DialogPanel dialogPanel;
 
-    private EntityItemBook book;
 
+    @Getter
+    private List<Entity> entities;
 
     public World(Main game) {
         this.game = game;
         this.batch = new SpriteBatch();
+        this.hudBatch = new SpriteBatch();
+
+        this.entities = new ArrayList<>();
 
         this.map=new TmxMapLoader().load("TiledMap/GameJamTiledMap.tmx");
         this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
 
         this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
         this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
         this.camera=new OrthographicCamera();
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
-
-        this.stage = new Stage(viewport);
-        System.out.println(game.getSoundManager());
         this.dialogPanel = new DialogPanel(game.getPlayer(), game.getSoundManager());
-
-        this.stage.addActor(dialogPanel.getTable());
-
         this.layerCollision = map.getLayers().get("collision").getObjects();
+
+        EntityRegister.registerEntities(this);
     }
 
     @Override
@@ -69,26 +72,33 @@ public class World implements Screen {
         this.oldX = this.game.getPlayer().getX();
         this.oldY = this.game.getPlayer().getY();
         this.game.getPlayer().setPosition(worldWidth/2, worldHeight/2);
+        this.entities.get(0).setPosition(worldWidth/2, worldHeight/2);
+        this.entities.get(1).setPosition(worldWidth/2, worldHeight/2 + 100);
+
+        this.entities.get(2).setPosition(worldWidth/2 + 100, worldHeight/2);
     }
 
     @Override
     public void render(float v) {
+
         this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
         logic();
         draw();
     }
 
     public void logic() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            dialogPanel.draw();
-        } else {
-            dialogPanel.hide();
-        }
         updateCamera();
         collision();
+        updateEntities(Gdx.graphics.getDeltaTime());
         playerLimit();
     }
 
+    public void updateEntities(float delta){
+        this.game.getPlayer().update(delta);
+        for(Entity entity : entities){
+            entity.update(delta);
+        }
+    }
 
     private void updateCamera() {
         camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(),0);
@@ -142,7 +152,6 @@ public class World implements Screen {
         this.oldY = game.getPlayer().getY();
     }
 
-
     public void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
         viewport.apply();
@@ -160,26 +169,22 @@ public class World implements Screen {
         Rectangle playerRect = game.getPlayer().getPlayerRect();
         shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
 
-//        // Dessiner les rectangles des obstacles
-//        for (MapObject object : this.layerCollision) {
-//            if (object instanceof RectangleMapObject) {
-//                Rectangle obstacleRect = ((RectangleMapObject) object).getRectangle();
-//                shapeRenderer.rect(obstacleRect.x, obstacleRect.y, obstacleRect.width, obstacleRect.height);
-//            }
-//        }
-
         shapeRenderer.end();
-        // Mise à jour du stage
-
-        stage.act();
-        stage.draw();
 
         // Dessin des sprites
         batch.begin();
-        game.getPlayer().draw(batch);
-        batch.end();
-    }
 
+        for(Entity entity : entities){
+            entity.draw(batch);
+        }
+
+        this.game.getPlayer().draw(batch);
+        batch.end();
+
+        hudBatch.begin();
+        this.game.getPlayer().getInventory().draw(hudBatch);
+        hudBatch.end();
+    }
 
     private void playerLimit() {
         float playerX = this.game.getPlayer().getX();

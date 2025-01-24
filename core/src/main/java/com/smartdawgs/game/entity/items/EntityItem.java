@@ -1,24 +1,45 @@
 package com.smartdawgs.game.entity.items;
 
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.items.Item;
+import com.smartdawgs.game.world.World;
+import lombok.Getter;
 
-public class EntityItem extends Entity {
-    protected String name;
+@Getter
+public class EntityItem extends Entity implements Interactable {
 
-    public EntityItem(String name) {
-        this.name = name;
+    private Item item;
+    private World world;
+
+    public EntityItem(World world, Item item) {
+        super(item.getTexture());
+        this.world = world;
+        this.item = item;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void interact(){
-        // TODO : implement the interaction
+    public EntityItem spawn(float x, float y){
+        this.setPosition(x, y);
+        return this;
     }
 
     @Override
     public void update(float delta) {
-        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String toString() {
+        return "EntityItem{" +
+                "item=" + item +
+                '}';
+    }
+
+    @Override
+    public boolean interact() {
+        System.out.println(this.getItem().getName() + " was picked up!");
+        if(this.world.getGame().getPlayer().getInventory().setCurrentItem(this)) {
+            this.world.getEntities().remove(this);
+        }
+
+        return true;
     }
 }
