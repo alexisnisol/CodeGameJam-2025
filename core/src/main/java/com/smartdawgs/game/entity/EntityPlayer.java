@@ -60,8 +60,6 @@ public class EntityPlayer extends Entity{
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.translateX(speed * delta);
         }
-
-
     }
 
     @Override

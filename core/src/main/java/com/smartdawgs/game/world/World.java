@@ -52,10 +52,8 @@ public class World implements Screen {
         this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
 
         this.stage = new Stage(viewport);
-        this.dialogPanel = new DialogPanel();
+        this.dialogPanel = new DialogPanel(game.getPlayer());
         this.stage.addActor(dialogPanel.getTable());
-        book = new EntityItemBook("book", "a book", dialogPanel);
-        book.interact();
     }
 
     @Override
@@ -75,7 +73,6 @@ public class World implements Screen {
         updateCamera();
         collision();
         playerLimit();
-        System.out.println(this.dialogPanel.getTable().isVisible());
     }
 
 
@@ -113,15 +110,9 @@ public class World implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.polygon(game.getPlayer().getPlayerPolygon().getTransformedVertices());
         shapeRenderer.end();
-        // delta entre 2 frames
-        float delta = Gdx.graphics.getDeltaTime();
-        time += delta;
-        if (time > 5) {
-            this.dialogPanel.getTable().setVisible(false);
-        }
-        this.dialogPanel.reposition(oldX, oldY);
         // Mise à jour du stage
-        stage.act(delta);
+
+        stage.act();
         stage.draw();
 
         batch.begin();

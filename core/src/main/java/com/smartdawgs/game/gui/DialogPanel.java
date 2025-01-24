@@ -8,13 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Color;
+import com.smartdawgs.game.entity.EntityPlayer;
 
 public class DialogPanel {
     private Label dialogLabel;
     private Table table;
     private BitmapFont font;
+    private EntityPlayer player;
 
-    public DialogPanel() {
+    public DialogPanel(EntityPlayer player) {
+        this.player = player;
         font = new BitmapFont();
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         dialogLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
@@ -32,12 +35,21 @@ public class DialogPanel {
         dialogLabel.setText(text);
     }
 
-    public void reposition(float x, float y) {
-        table.setPosition(x, y);
+    public void reposition() {
+        table.setPosition(player.getX() - table.getWidth() / 2, player.getY() + player.getHeight());
     }
 
     public Table getTable() {
         return table;
+    }
+
+    public void draw() {
+        reposition();
+        this.table.setVisible(true);
+    }
+
+    public void hide() {
+        this.table.setVisible(false);
     }
 
     public void dispose() {
