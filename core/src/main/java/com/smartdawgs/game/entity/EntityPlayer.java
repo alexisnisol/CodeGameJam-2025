@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class EntityPlayer extends Entity{
     @Getter
     @Setter
     private float speed;
-    private Polygon polygon;
+    private Rectangle playerRect;
     private Animation<TextureRegion> animation;
     private float stateTime;
     private static final int FRAME_COLS = 4; // Example value
@@ -27,9 +28,8 @@ public class EntityPlayer extends Entity{
 
     public EntityPlayer(TextureAtlas atlas) {
         super(atlas.findRegion("player_1"));
-        float[] dimensions={1,1,1,1,1,1,1,1};
-        polygon=new Polygon(dimensions);
-        polygon.setPosition(getX(),getY());
+        playerRect =new Rectangle(2, 2, 33, 38);
+        playerRect.setPosition(getX(),getY());
         this.speed=100f;
         this.setScale(2.0f);
 
@@ -41,8 +41,8 @@ public class EntityPlayer extends Entity{
         stateTime = 1f;
     }
 
-    public Polygon getPlayerPolygon() {
-        return this.polygon;
+    public Rectangle getPlayerRect() {
+        return this.playerRect;
     }
 
     public void update(float delta) {
@@ -61,6 +61,7 @@ public class EntityPlayer extends Entity{
             this.translateX(speed * delta);
         }
 
+        playerRect.setPosition(getX() + 7,getY() - 8);
 
     }
 
