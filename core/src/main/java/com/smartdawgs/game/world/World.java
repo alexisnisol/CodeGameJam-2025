@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -74,13 +76,37 @@ public class World implements Screen {
 
 
     private void updateCamera() {
-        if(map.getLayers().get("piece1").getObjects().getCount()==0) {
+        if (map.getLayers().get("piece1").getObjects().getCount() == 0) {
             camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
             camera.zoom = 0.2f;
+        } else {
+            for (MapLayer layer : map.getLayers()) {
+                for (MapObject object : layer.getObjects()) {
+                    if (object instanceof RectangleMapObject) {
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                        if (rectangle.contains(this.game.getPlayer().getX(), this.game.getPlayer().getY())) {
+                            float centerX = rectangle.x + rectangle.width / 2;
+                            float centerY = rectangle.y + rectangle.height / 2;
+                            camera.position.set(centerX, centerY, 0);
+                            camera.viewportWidth = rectangle.width;
+                            camera.viewportHeight = rectangle.height;
+                        }
+                    } else if (object instanceof PolygonMapObject) {
+                        Polygon polygon = ((PolygonMapObject) object).getPolygon();
+                        if (polygon.contains(this.game.getPlayer().getX(), this.game.getPlayer().getY())) {
+                            float centerX = polygon.getBoundingRectangle().x + polygon.getBoundingRectangle().width / 2;
+                            float centerY = polygon.getBoundingRectangle().y + polygon.getBoundingRectangle().height / 2;
+                            camera.position.set(centerX, centerY, 0);
+                            camera.viewportWidth = polygon.getBoundingRectangle().width;
+                            camera.viewportHeight = polygon.getBoundingRectangle().height;
+                        }
+                    }
+                }
+            }
         }
-        else if(map.getLayers().get("piece2").getObjects().getCount()==0) {}
         camera.update();
     }
+
 
 
 
