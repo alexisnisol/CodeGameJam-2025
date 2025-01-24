@@ -203,7 +203,6 @@ public class World implements Screen {
     public void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
 
-
         viewport.apply();
         mapRenderer.setView(camera);
 
@@ -214,10 +213,9 @@ public class World implements Screen {
         mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("floor"));
         mapRenderer.getBatch().end();
 
-        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
-        stage.act();
-        stage.draw();
+        batch.setProjectionMatrix(camera.combined);
         game.getPlayer().draw(batch);
         batch.end();
 
@@ -230,6 +228,10 @@ public class World implements Screen {
         mapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("batiment2"));
 
         mapRenderer.getBatch().end();
+
+        stage.act();
+        stage.draw();
+
     }
 
 
