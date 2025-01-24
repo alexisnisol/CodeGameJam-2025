@@ -100,24 +100,36 @@ public class World implements Screen {
 
 
     private void updateCamera() {
+        //si on est sur la map générale
         if (map.getLayers().get("piece1")==null) {
             camera.position.set(this.game.getPlayer().getX(), this.game.getPlayer().getY(), 0);
             camera.zoom = 0.2f;
-        } else {
+
+        }
+        //si on est en intérieur
+        else {
+            //parcourps des calques d'objets
             for (MapLayer layer : map.getLayers()) {
                 for (MapObject object : layer.getObjects()) {
+                    //si le calque est un rectangle
                     if (object instanceof RectangleMapObject) {
                         Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                        //vérification de la présence du joueur dans le calque
                         if (rectangle.contains(this.game.getPlayer().getX(), this.game.getPlayer().getY())) {
+                            //modification de la caméra en conséquence
                             float centerX = rectangle.x + rectangle.width / 2;
                             float centerY = rectangle.y + rectangle.height / 2;
                             camera.position.set(centerX, centerY, 0);
                             camera.viewportWidth = rectangle.width;
                             camera.viewportHeight = rectangle.height;
                         }
-                    } else if (object instanceof PolygonMapObject) {
+                    }
+                    //si le calque est un polygon
+                    else if (object instanceof PolygonMapObject) {
                         Polygon polygon = ((PolygonMapObject) object).getPolygon();
+                        //vérification de la présence du joueur dans le calque
                         if (polygon.contains(this.game.getPlayer().getX(), this.game.getPlayer().getY())) {
+                            //modification de la caméra en conséquence
                             float centerX = polygon.getBoundingRectangle().x + polygon.getBoundingRectangle().width / 2;
                             float centerY = polygon.getBoundingRectangle().y + polygon.getBoundingRectangle().height / 2;
                             camera.position.set(centerX, centerY, 0);
