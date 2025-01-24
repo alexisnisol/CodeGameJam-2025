@@ -121,10 +121,34 @@ public class World implements Screen {
                     }
                 }
             }
+            else  if (object instanceof PolygonMapObject) {
+                // Récupérer le polygone
+                Polygon polygon = ((PolygonMapObject) object).getPolygon();
+
+                // Convertir le rectangle du joueur en polygone temporaire
+                Polygon playerPolygon = rectangleToPolygon(game.getPlayer().getPlayerRect());
+
+                // Vérifier la collision entre le polygone du joueur et celui de l'objet
+                if (Intersector.overlapConvexPolygons(playerPolygon, polygon)) {
+                    game.getPlayer().setX(oldX); // Revenir à l'ancienne position
+                    game.getPlayer().setY(oldY);
+                }
+            }
         }
         // Sauvegarder la position actuelle pour la prochaine itération
         this.oldX = game.getPlayer().getX();
         this.oldY = game.getPlayer().getY();
+    }
+
+    // Méthode utilitaire pour convertir un Rectangle en Polygon
+    private Polygon rectangleToPolygon(Rectangle rectangle) {
+        float[] vertices = new float[]{
+            rectangle.x, rectangle.y,  // Bottom-left
+            rectangle.x + rectangle.width, rectangle.y,  // Bottom-right
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height,  // Top-right
+            rectangle.x, rectangle.y + rectangle.height  // Top-left
+        };
+        return new Polygon(vertices);
     }
 
 
