@@ -1,6 +1,7 @@
 package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,13 +30,10 @@ public class World implements Screen {
     private MapObjects layerCollision;
     private float oldX;
     private float oldY;
-
     private Stage stage;
     private DialogPanel dialogPanel;
 
     private EntityItemBook book;
-
-    private float time = 0f;
 
 
     public World(Main game) {
@@ -70,6 +68,12 @@ public class World implements Screen {
     }
 
     public void logic() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            dialogPanel.setText("Hello Worldlkzalkndalkzdnlaknzdlkanzdlknalkdnalkzndlkanzdlknazd");
+            dialogPanel.draw();
+        } if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            dialogPanel.hide();
+        }
         updateCamera();
         collision();
         playerLimit();

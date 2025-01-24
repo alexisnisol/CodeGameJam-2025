@@ -62,6 +62,10 @@ public class EntityPlayer extends Entity{
         }
     }
 
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     @Override
     public void draw(Batch batch) {
         TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
