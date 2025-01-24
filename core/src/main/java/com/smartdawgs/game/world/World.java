@@ -68,12 +68,6 @@ public class World implements Screen {
     }
 
     public void logic() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            dialogPanel.setText("Hello Worldlkzalkndalkzdnlaknzdlkanzdlknalkdnalkzndlkanzdlknazd");
-            dialogPanel.draw();
-        } if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            dialogPanel.hide();
-        }
         updateCamera();
         collision();
         playerLimit();

@@ -16,6 +16,7 @@ public class DialogPanel {
     private BitmapFont font;
     private EntityPlayer player;
 
+
     public DialogPanel(EntityPlayer player) {
         this.player = player;
         font = new BitmapFont();
