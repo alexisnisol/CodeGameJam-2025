@@ -3,15 +3,16 @@ package com.smartdawgs.game.entity.items;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.items.Item;
 import com.smartdawgs.game.world.World;
+import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 
 @Getter
 public class EntityItem extends Entity implements Interactable {
 
     private Item item;
-    private World world;
+    private WorldElement world;
 
-    public EntityItem(World world, Item item) {
+    public EntityItem(WorldElement world, Item item) {
         super(item.getTexture());
         this.world = world;
         this.item = item;
