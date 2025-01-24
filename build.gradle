@@ -9,8 +9,6 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
   }
 }
 
@@ -53,6 +51,10 @@ configure(subprojects) {
 
   compileJava {
     options.incremental = true
+  }
+
+  dependencies {
+    implementation 'games.rednblack.miniaudio:miniaudio:0.5:natives-desktop'
   }
 }
 
