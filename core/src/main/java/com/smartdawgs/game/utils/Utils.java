@@ -1,4 +1,4 @@
-package com.smartdawgs.game;
+package com.smartdawgs.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
