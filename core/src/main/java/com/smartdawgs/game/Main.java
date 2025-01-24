@@ -19,7 +19,7 @@ public class Main extends Game {
     public void create() {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
         player = new EntityPlayer(playerAtlas);
-        this.setScreen(new HouseEnigme1(this));
+        this.setScreen(new World(this));
         soundManager = new SoundManager();
         soundManager.playMusic();
     }
