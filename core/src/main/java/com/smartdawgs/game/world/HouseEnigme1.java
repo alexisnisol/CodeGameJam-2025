@@ -26,20 +26,13 @@ public class HouseEnigme1 extends WorldElement {
     public void init() {
         Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("collision"), "sortie");
         this.game.getPlayer().setPosition(position.x, position.y);
-        labAction = nom;
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (labAction.isEmpty()) {
-            parent.show();
-            this.game.setScreen(parent.init(nom));
-            this.dispose();
-        } else {
-            logic();
-            draw();
-        }
+        draw();
+        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
     }
 
     public void logic() {
@@ -58,11 +51,19 @@ public class HouseEnigme1 extends WorldElement {
             labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
             if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
                 deltaTest = stateTime;
-                labAction = "";
+                interactWithElement("exit");
             }
         } else {
             labelInteraction.setVisible(false);
-            labAction = nom;
+        }
+    }
+
+    private void interactWithElement(String element) {
+        switch (element) {
+            case "exit":
+                parent.show();
+                this.game.setScreen(parent.init(nom));
+                this.dispose();
         }
     }
 

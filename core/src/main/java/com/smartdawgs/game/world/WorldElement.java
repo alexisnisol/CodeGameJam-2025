@@ -1,6 +1,7 @@
 package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -50,7 +51,6 @@ public abstract class WorldElement implements Screen {
     protected Stage stage;
     protected Label labelInteraction;
     protected BitmapFont bitmapFont;
-    protected String labAction = "";
 
     protected MapObjects layerCollision;
     protected float oldX;
@@ -106,6 +106,13 @@ public abstract class WorldElement implements Screen {
         updateCamera();
         collision();
         updateEntities(Gdx.graphics.getDeltaTime());
+        checkDialog();
+    }
+
+    private void checkDialog() {
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            this.getDialogPanel().hide();
+        }
     }
 
     public void preRender() {

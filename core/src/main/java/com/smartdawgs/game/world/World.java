@@ -36,29 +36,13 @@ public class World extends WorldElement {
     @Override
     public void render(float delta) {
         super.render(delta);
-        switch (labAction) {
-            case "house1":
-                this.game.setScreen(new HouseEnigme1(this));
-                this.hide();
-                break;
-            case "HouseEnigme2":
-                break;
-
-            default:
-                logic();
-                draw();
-                break;
-        }
+        draw();
+        logic();
     }
 
     public void logic() {
         super.logic();
         checkPlace();
-
-        if(labAction != "" && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            this.getDialogPanel().hide();
-            labAction = "";
-        }
     }
 
     private void checkPlace() {
@@ -70,11 +54,21 @@ public class World extends WorldElement {
             labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
             if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
                 deltaTest = stateTime;
-                labAction = nearlyPoint.getName();
+                interactWithElement(nearlyPoint.getName());
             }
         } else {
             labelInteraction.setVisible(false);
-            labAction = "";
+        }
+    }
+
+    private void interactWithElement(String element) {
+        switch (element) {
+            case "house1":
+                this.game.setScreen(new HouseEnigme1(this));
+                this.hide();
+                break;
+            case "HouseEnigme2":
+                break;
         }
     }
 
@@ -103,7 +97,6 @@ public class World extends WorldElement {
     public WorldElement init(String pointSortie) {
         Vector2 position = WorldUtils.getPoint(map.getLayers().get("Label"), pointSortie);
         this.game.getPlayer().setPosition(position.x, position.y);
-        labAction = "";
         return this;
     }
 }
