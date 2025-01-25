@@ -1,6 +1,7 @@
 package com.smartdawgs.game.sound;
 
 import com.badlogic.gdx.utils.Disposable;
+import com.smartdawgs.game.Main;
 import games.rednblack.miniaudio.MASound;
 import games.rednblack.miniaudio.MiniAudio;
 
@@ -8,9 +9,11 @@ public class SoundManager implements Disposable {
     private final MiniAudio miniAudio;
     private MASound music;
     private float musicVolume;
-    private float facteurVolume = 1f;
+    private float facteurVolume = 0.1f;
+    private final Main main;
 
-    public SoundManager() {
+    public SoundManager(Main main) {
+        this.main = main;
         miniAudio = new MiniAudio();
         musicVolume = 1f;
         randomMusic();
@@ -58,8 +61,9 @@ public class SoundManager implements Disposable {
     }
 
     public void musicVolumeDown(float volumeUnit) {
-        if (this.musicVolume - (volumeUnit) < 0) {
+        if (this.musicVolume - (volumeUnit * facteurVolume) < 0) {
             this.musicVolume = 0;
+            this.main.youAreDead();
         } else if (this.musicVolume <= 1f) {
             this.musicVolume -= volumeUnit * facteurVolume;
             music.setVolume(musicVolume);

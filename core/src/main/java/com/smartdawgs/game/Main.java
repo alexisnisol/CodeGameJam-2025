@@ -1,16 +1,13 @@
 package com.smartdawgs.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.smartdawgs.game.entity.EntityPlayer;
 import com.smartdawgs.game.sound.SoundManager;
-import com.smartdawgs.game.world.HouseEnigme1;
 import com.smartdawgs.game.utils.Utils;
 import com.smartdawgs.game.world.World;
-import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 
 @Getter
@@ -25,14 +22,23 @@ public class Main extends Game {
 
     @Override
     public void create() {
+        initialize();
+    }
+
+    private void initialize() {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
         World world = new World(this);
         this.player = new EntityPlayer(playerAtlas, world);
-        soundManager = new SoundManager();
+        soundManager = new SoundManager(this);
         soundManager.playMusic();
         this.setScreen(world);
         this.font = new BitmapFont();
         this.glyphLayout = new GlyphLayout();
+    }
+
+    public void reset() {
+        dispose();
+        initialize();
     }
 
     @Override
@@ -46,14 +52,22 @@ public class Main extends Game {
     @Override
     public void dispose() {
         super.dispose();
-        soundManager.dispose();
+        if (soundManager != null) {
+            soundManager.dispose();
+        }
+        if (font != null) {
+            font.dispose();
+        }
     }
 
-    @Override
-    public void setScreen(Screen screen) {
-        if(this.getPlayer() != null && screen instanceof WorldElement) {
-            this.getPlayer().setWorld((WorldElement) screen);
-        }
-        super.setScreen(screen);
+    public void youAreDead() {
+        dispose();
+        ScreenDead screenDead = new ScreenDead(this);
+        this.setScreen(screenDead);
+        soundManager = new SoundManager(this);
+    }
+
+    public void addTime(){
+
     }
 }
