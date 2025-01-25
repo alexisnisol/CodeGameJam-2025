@@ -3,6 +3,7 @@ package com.smartdawgs.game.items;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
+import com.smartdawgs.game.entity.EntityPlayer;
 import lombok.Getter;
 
 @Getter
@@ -34,7 +35,7 @@ public class Item implements Disposable, Usable {
     }
 
     @Override
-    public void onUse() {
+    public void onUse(EntityPlayer player) {
         System.out.println(name + " was used!");
     }
 }

@@ -1,6 +1,8 @@
 package com.smartdawgs.game.items;
 
+import com.smartdawgs.game.entity.EntityPlayer;
+
 public interface Usable {
 
-    public void onUse();
+    void onUse(EntityPlayer player);
 }
