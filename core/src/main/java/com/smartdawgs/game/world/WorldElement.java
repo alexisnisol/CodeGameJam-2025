@@ -52,6 +52,7 @@ public abstract class WorldElement implements Screen {
 
     protected Stage stage;
     protected Label labelInteraction;
+    protected Label jukeBox;
     protected BitmapFont bitmapFont;
 
     protected MapObjects layerCollision;
