@@ -23,6 +23,7 @@ import com.smartdawgs.game.entity.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.gui.DialogPanel;
+import com.smartdawgs.game.gui.ScreenEndgame;
 import com.smartdawgs.game.items.ItemDisque;
 import com.smartdawgs.game.utils.CollisionUtils;
 import lombok.Getter;
@@ -125,12 +126,20 @@ public abstract class WorldElement implements Screen {
         updateCamera();
         collision();
         updateEntities(Gdx.graphics.getDeltaTime());
-        checkDialog();
+        checkInputDialog();
+        checkEnd();
     }
 
-    private void checkDialog() {
+
+    private void checkInputDialog() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.getDialogPanel().hide();
+        }
+    }
+
+    private void checkEnd() {
+        if(this.nbDisque>=4) {
+            game.setScreen(new ScreenEndgame());
         }
     }
 
@@ -241,6 +250,8 @@ public abstract class WorldElement implements Screen {
     @Override
     public void render(float delta) {
         this.stateTime += delta;
+        draw();
+        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
     }
 
     @Override
@@ -264,4 +275,6 @@ public abstract class WorldElement implements Screen {
     public void hide() {
 
     }
+
+    public abstract void draw();
 }

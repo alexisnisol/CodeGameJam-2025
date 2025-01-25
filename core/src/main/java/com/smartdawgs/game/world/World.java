@@ -26,19 +26,6 @@ public class World extends WorldElement {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-        verifFin();
-        draw();
-        logic();
-    }
-
-    private void verifFin() {
-        if(this.nbDisque>=4) {
-            game.setScreen(new ScreenEndgame());
-        }
-    }
-
     public void logic() {
         super.logic();
         checkPlace();
@@ -81,6 +68,7 @@ public class World extends WorldElement {
         }
     }
 
+    @Override
     public void draw() {
         super.preRender();
 

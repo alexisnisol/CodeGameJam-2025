@@ -33,12 +33,6 @@ public class HouseEnigme1 extends WorldElement {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-        draw();
-        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
-    }
-
     public void logic() {
         super.logic();
         checkPlace();
@@ -71,6 +65,7 @@ public class HouseEnigme1 extends WorldElement {
         }
     }
 
+    @Override
     public void draw() {
         super.preRender();
 
