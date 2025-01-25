@@ -17,9 +17,13 @@ public class HouseEnigme1 extends WorldElement {
     private String nom;
 
     public HouseEnigme1(World parent) {
-        super(parent.getGame(), "chambrepersonnelle");
+        this(parent, "chambrepersonnelle", "house1");
+    }
+
+    public HouseEnigme1(World parent, String tiledMap, String nom) {
+        super(parent.getGame(), tiledMap);
         this.parent = parent;
-        this.nom = "house1";
+        this.nom = nom;
         init();
     }
 
@@ -69,17 +73,6 @@ public class HouseEnigme1 extends WorldElement {
 
     public void draw() {
         super.preRender();
-
-        // Utilisation de ShapeRenderer pour afficher les rectangles
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-        // Dessiner le rectangle du joueur
-        Rectangle playerRect = game.getPlayer().getPlayerRect();
-        shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
-        shapeRenderer.end();
-
 
         mapRenderer.setView(camera);
         mapRenderer.render();

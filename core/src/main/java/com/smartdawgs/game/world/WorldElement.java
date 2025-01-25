@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -138,6 +140,18 @@ public abstract class WorldElement implements Screen {
 
         stage.act();
         stage.draw();
+
+        if(true) {
+            // Utilisation de ShapeRenderer pour afficher les rectangles
+            ShapeRenderer shapeRenderer = new ShapeRenderer();
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+            // Dessiner le rectangle du joueur
+            Rectangle playerRect = game.getPlayer().getPlayerRect();
+            shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
+            shapeRenderer.end();
+        }
 
     }
 
