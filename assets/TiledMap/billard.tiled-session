@@ -92,10 +92,10 @@
                 5
             ],
             "scale": 0.5,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 3088,
-                "y": 3223
+                "x": 3157,
+                "y": 3060
             }
         },
         "blanc_horizon.tsx": {
