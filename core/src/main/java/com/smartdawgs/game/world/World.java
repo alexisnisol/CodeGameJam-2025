@@ -26,6 +26,8 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class World extends WorldElement {
     private SpriteBatch hudBatch;
@@ -37,6 +39,13 @@ public class World extends WorldElement {
 
     private float stateTime = 0;
     private float deltaTest = 0;
+    private int nbDisque=0;
+
+
+    private Boolean sonAnimaux=false;
+    private Boolean sonObject=false;
+    private Boolean deplacementObject=false;
+    private Boolean journeaux=false;
 
 
     @Setter
@@ -80,6 +89,22 @@ public class World extends WorldElement {
         EntityRegister.registerEntities(this);
     }
 
+    public Boolean getSonAnimaux() {
+        return sonAnimaux;
+    }
+
+    public Boolean getSonObject() {
+        return sonObject;
+    }
+
+    public Boolean getDeplacementObject() {
+        return deplacementObject;
+    }
+
+    public Boolean getJourneaux() {
+        return journeaux;
+    }
+
     @Override
     public void render(float v) {
         stateTime += v;
@@ -95,11 +120,47 @@ public class World extends WorldElement {
             case "HouseEnigme2":
                 break;
 
+            case "influence":
+                disqueInfluence();
+                nbDisque+=1;
+                break;
+
+            case "harmonie":
+                disqueHamonie();
+                nbDisque+=1;
+                break;
+
+            case "ame":
+                disqueAme();
+                nbDisque+=1;
+                break;
+
+            case "secret":
+                disqueSecret();
+                nbDisque+=1;
+                break;
+
             default:
+                verifFin();
                 this.game.getPlayer().update(Gdx.graphics.getDeltaTime());
                 logic();
                 draw();
                 break;}
+    }
+
+    private void verifFin() {
+        if(nbDisque>=4) {
+            jukeBox.setVisible(true);
+            jukeBox.setText("Tu as ramené la musique dans ce monde, mais ce n’est pas la fin. C’est un cycle éternel : cette dimension se taira de nouveau, et quelqu’un devra à nouveau restaurer sa mélodie. La boucle ne cesse de se répéter. Néanmoins, à chaque renaissance, il reste une lueur d’espoir… La musique nous sauvera, toujours.");
+            jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    jukeBox.setVisible(false);
+                }
+            }, 25000);
+        }
     }
 
     public void logic() {
@@ -107,6 +168,62 @@ public class World extends WorldElement {
         collision();
         playerLimit();
         checkPlace();
+    }
+
+    public void disqueInfluence() {
+        this.deplacementObject=true;
+        jukeBox.setVisible(true);
+        jukeBox.setText("Et les objets retrouvèrent leur finalité");
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
+    }
+
+    public void disqueHamonie() {
+        this.journeaux=true;
+        jukeBox.setVisible(true);
+        jukeBox.setText("Et le monde retrouva son état d’antan");
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
+    }
+
+    public void disqueSecret() {
+        this.sonObject=true;
+        jukeBox.setVisible(true);
+        jukeBox.setText("Et les secrets du monde furent révélés");
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
+    }
+
+    public void disqueAme() {
+        this.sonAnimaux=true;
+        jukeBox.setVisible(true);
+        jukeBox.setText("Et les êtres retrouvèrent leur raison");
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
     }
 
 

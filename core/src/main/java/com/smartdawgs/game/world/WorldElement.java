@@ -28,6 +28,7 @@ public abstract class WorldElement implements Screen {
 
     protected Stage stage;
     protected Label labelHouse1;
+    protected Label jukeBox;
     protected BitmapFont bitmapFont;
     protected String labAction = "";
 
