@@ -6,13 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.smartdawgs.game.entity.enums.Direction;
+import com.smartdawgs.game.EntityRegister;
+import com.smartdawgs.game.entity.items.EntityItem;
+import com.smartdawgs.game.gui.Inventory;
+import com.smartdawgs.game.utils.enums.Direction;
+import com.smartdawgs.game.world.World;
+import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 import lombok.Setter;
-import org.w3c.dom.Text;
 
 public class EntityPlayer extends Entity{
 
@@ -27,6 +29,15 @@ public class EntityPlayer extends Entity{
     private Direction direction;
     private boolean isMoving = false;
 
+    private float deltaTest = 0;
+
+
+    @Getter
+    @Setter
+    private WorldElement world;
+
+    @Getter
+    private Inventory inventory;
 
     // Animation for idle
     private Animation<TextureRegion> idleAnimation;
@@ -38,11 +49,14 @@ public class EntityPlayer extends Entity{
     private Animation<TextureRegion> walkSideAnimation;
     private Animation<TextureRegion> walkBackAnimation;
 
-    public EntityPlayer(TextureAtlas atlas) {
+    public EntityPlayer(TextureAtlas atlas, World world) {
         super(atlas.findRegion("player_idle_1"));
         playerRect =new Rectangle(2, 2, 33, 38);
         playerRect.setPosition(getX(),getY());
         this.speed=100f;
+        this.world = world;
+        this.inventory = new Inventory(this);
+
         this.setScale(2.0f);
 
         idleAnimation = createAnimation(atlas, "player_idle", 5, 0.1f);
@@ -54,11 +68,17 @@ public class EntityPlayer extends Entity{
         walkBackAnimation = createAnimation(atlas, "player_walk_back", 5, 0.1f);
 
         stateTime = 1f;
+
+        this.setPosition(this.world.getWorldWidth() / 2, this.world.getWorldHeight() / 2);
     }
 
     public void update(float delta) {
         stateTime += delta;
+        handleInput(delta);
+        playerRect.setPosition(getX() + 7,getY() - 8);
+    }
 
+    public void handleInput(float delta) {
         isMoving = false;
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.translateY(speed * delta);
@@ -81,8 +101,47 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
 
-        playerRect.setPosition(getX() + 12,getY() - 15);
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && stateTime - deltaTest > 0.5) {
+            this.useItem();
+            deltaTest = stateTime;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
+            this.interaction();
+            deltaTest = stateTime;
+        }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.Y) && stateTime - deltaTest > 0.5){
+            this.world.getEntities().add(new EntityItem(this.world, EntityRegister.MUSHROOM).spawn(this.getX(), this.getY()));
+            deltaTest = stateTime;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.G) || Gdx.input.isKeyPressed(Input.Keys.P)) {
+            EntityItem item = this.inventory.canDropItem();
+            if (item != null) {
+                System.out.println("Item " + item + " was dropped");
+                this.world.getEntities().add(item.spawn(this.getX(), this.getY()));
+            }
+        }
+    }
+
+    private void useItem() {
+        if(this.inventory.getCurrentItem() != null){
+            this.inventory.getCurrentItem().onUse();
+        }
+    }
+
+    private void interaction() {
+        int i = 0;
+        while (i < world.getEntities().size()) {
+            Entity entity = world.getEntities().get(i);
+            if (playerRect.overlaps(entity.getBoundingRectangle())) {
+                if (entity instanceof EntityItem) {
+                    EntityItem item = (EntityItem) entity;
+                    item.interact();
+                }
+            }
+            i++;
+        }
     }
 
     @Override

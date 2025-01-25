@@ -1,17 +1,18 @@
 package com.smartdawgs.game.entity;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class Entity  extends Sprite {
+public abstract class Entity extends Sprite {
 
-    public Entity() {
-        super();
+    public Entity(TextureAtlas.AtlasRegion region) {
+        super(region);
     }
 
-    public Entity(TextureAtlas.AtlasRegion sprite) {
+    public Entity(Texture sprite) {
         super(sprite);
     }
 

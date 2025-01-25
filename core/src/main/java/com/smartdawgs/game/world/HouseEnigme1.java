@@ -1,72 +1,97 @@
 package com.smartdawgs.game.world;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.smartdawgs.game.Main;
+import com.smartdawgs.game.utils.WorldUtils;
 
-public class HouseEnigme1 implements Screen {
-    private Main game;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    float worldWidth;
-    float worldHeight;
+public class HouseEnigme1 extends WorldElement {
 
-    public HouseEnigme1(Main game) {
-        this.game = game;
-        this.batch = new SpriteBatch();
+    private World parent;
+    private String nom;
 
-        this.map=new TmxMapLoader().load("TiledMap/TestBillard.tmx");
-        this.mapRenderer = new OrthogonalTiledMapRenderer(map);
-        //this.layerCollision = this.map.getLayers().get("collision").getObjects();
-
-        this.worldHeight=map.getProperties().get("height", Integer.class)*32f;
-        this.worldWidth=map.getProperties().get("width", Integer.class)*32f;
-        this.camera=new OrthographicCamera();
-        this.viewport=new FitViewport(this.worldWidth, this.worldHeight, this.camera);
+    public HouseEnigme1(World parent) {
+        super(parent.getGame(), "chambrepersonnelle");
+        this.parent = parent;
+        this.nom = "house1";
+        init();
     }
 
-
-
-    @Override
-    public void show() {
-
+    public void init() {
+        Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("collision"), "sortie");
+        this.game.getPlayer().setPosition(position.x, position.y);
     }
 
     @Override
-    public void render(float v) {
-
+    public void render(float delta) {
+        super.render(delta);
+        draw();
+        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
     }
 
-    @Override
-    public void resize(int i, int i1) {
-
+    public void logic() {
+        super.logic();
+        checkPlace();
+        this.camera.zoom = 0.1f;
     }
 
-    @Override
-    public void pause() {
+    private void checkPlace() {
 
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
+
+        if(nearlyPoint != null) {
+            labelInteraction.setVisible(true);
+            labelInteraction.setText("Appuyez sur la touche 'F'");
+            labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+            if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
+                deltaTest = stateTime;
+                interactWithElement("exit");
+            }
+        } else {
+            labelInteraction.setVisible(false);
+        }
     }
 
-    @Override
-    public void resume() {
-
+    private void interactWithElement(String element) {
+        switch (element) {
+            case "exit":
+                parent.show();
+                this.game.setScreen(parent.init(nom));
+                this.dispose();
+        }
     }
 
-    @Override
-    public void hide() {
+    public void draw() {
+        super.preRender();
 
+        // Utilisation de ShapeRenderer pour afficher les rectangles
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        // Dessiner le rectangle du joueur
+        Rectangle playerRect = game.getPlayer().getPlayerRect();
+        shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
+        shapeRenderer.end();
+
+
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+
+        mapRenderer.getBatch().begin();
+        // draw elements
+        mapRenderer.getBatch().end();
+
+
+        super.postRender();
     }
 
-    @Override
-    public void dispose() {
 
-    }
+
 }
