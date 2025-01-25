@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.utils.WorldUtils;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Timer;
@@ -17,9 +18,13 @@ public class World extends WorldElement {
 
     private int nbDisque=0;
 
+    @Getter
     private Boolean sonAnimaux=false;
+    @Getter
     private Boolean sonObject=false;
+    @Getter
     private Boolean deplacementObject=false;
+    @Getter
     private Boolean journeaux=false;
 
     public World(Main game) {
@@ -30,22 +35,6 @@ public class World extends WorldElement {
         super(game, "GameJamTiledMap");
         this.entities = entities;
         this.game.getPlayer().setWorld(this);
-    }
-
-    public Boolean getSonAnimaux() {
-        return sonAnimaux;
-    }
-
-    public Boolean getSonObject() {
-        return sonObject;
-    }
-
-    public Boolean getDeplacementObject() {
-        return deplacementObject;
-    }
-
-    public Boolean getJourneaux() {
-        return journeaux;
     }
 
     @Override
