@@ -31,6 +31,9 @@ public class World extends WorldElement {
         super(game, "GameJamTiledMap");
         this.entities = entities;
         this.game.getPlayer().setWorld(this);
+        labAction = "house1";
+        this.game.setScreen(new HouseEnigme1(this));
+        this.hide();
     }
 
     @Override
