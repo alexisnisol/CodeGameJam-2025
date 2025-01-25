@@ -40,8 +40,8 @@
             "scale": 0.5,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 989,
-                "y": 716
+                "x": 649,
+                "y": 1202
             }
         },
         "Map004.tsx": {
@@ -70,15 +70,15 @@
         },
         "acceuiletchambre.tmx": {
             "expandedObjectLayers": [
+                3,
                 5,
-                4,
-                3
+                4
             ],
-            "scale": 1,
-            "selectedLayer": 2,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2789.5,
-                "y": 2583
+                "x": 2698.333333333333,
+                "y": 2842
             }
         },
         "billard.tsx": {
@@ -87,15 +87,15 @@
         },
         "billardD.tmx": {
             "expandedObjectLayers": [
-                5,
                 7,
-                6
+                6,
+                5
             ],
             "scale": 0.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 3377,
-                "y": 3194
+                "x": 3088,
+                "y": 3223
             }
         },
         "blanc_horizon.tsx": {
@@ -117,8 +117,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 2963.6666666666665,
-                "y": 2800
+                "x": 2717,
+                "y": 2967.333333333333
             }
         },
         "entrepos.tmx": {
@@ -126,10 +126,10 @@
                 2
             ],
             "scale": 0.75,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 2562,
-                "y": 3073.333333333333
+                "x": 2540.6666666666665,
+                "y": 3676
             }
         },
         "examples.tsx": {

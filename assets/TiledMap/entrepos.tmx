@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="25">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="25">
  <tileset firstgid="1" source="Entrepos.tsx"/>
  <tileset firstgid="1981" source="Bonus_Map.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="200" height="200">
@@ -228,7 +228,9 @@
   <object id="21" x="2944.33" y="3111" width="85.333" height="94.6667"/>
   <object id="22" x="2609.93" y="3056.67" width="175.333" height="58" rotation="9.21005"/>
   <object id="23" x="3157" y="3264.34" width="71.333" height="45.3333"/>
-  <object id="24" name="sortie" x="2481.82" y="3596.97">
+ </objectgroup>
+ <objectgroup id="3" name="piece1">
+  <object id="24" name="sortie" x="2540.49" y="3675.64">
    <point/>
   </object>
  </objectgroup>

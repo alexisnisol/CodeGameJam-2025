@@ -21,7 +21,7 @@ public class HouseEnigme2 extends WorldElement {
     }
 
     public void init() {
-        Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("collision"), "sortie");
+        Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("piece1"), "sortie");
         this.game.getPlayer().setPosition(position.x, position.y);
         labAction = nom;
     }

@@ -16,7 +16,7 @@ public class HouseEnigme4 extends WorldElement {
     public HouseEnigme4(World parent) {
         super(parent.getGame(), "acceuiletchambre");
         this.parent = parent;
-        this.nom = "4";
+        this.nom = "house4";
         init();
     }
 
@@ -46,8 +46,7 @@ public class HouseEnigme4 extends WorldElement {
     }
 
     private void checkPlace() {
-
-        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("piece1"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null) {
             labelInteraction.setVisible(true);
