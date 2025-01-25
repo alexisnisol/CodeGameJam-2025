@@ -51,9 +51,9 @@ public class EntityPlayer extends Entity{
 
     public EntityPlayer(TextureAtlas atlas, World world) {
         super(atlas.findRegion("player_idle_1"));
-        playerRect =new Rectangle(2, 2, 33, 38);
+        playerRect =new Rectangle(0, 0, 33, 38);
         playerRect.setPosition(getX(),getY());
-        this.speed=200f;
+        this.speed=100f;
         this.world = world;
         this.inventory = new Inventory(this);
 
@@ -75,7 +75,7 @@ public class EntityPlayer extends Entity{
     public void update(float delta) {
         stateTime += delta;
         handleInput(delta);
-        playerRect.setPosition(getX() + 7,getY() - 8);
+        playerRect.setPosition(getX() + 10,getY() - 12);
     }
 
     public void handleInput(float delta) {
