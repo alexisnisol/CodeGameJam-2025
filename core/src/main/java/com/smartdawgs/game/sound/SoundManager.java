@@ -12,7 +12,7 @@ public class SoundManager implements Disposable {
     @Getter
     private float musicVolume;
     @Setter
-    private float facteurVolume = 0.1f;
+    private float facteurVolume = 1f;
 
     public SoundManager() {
         miniAudio = new MiniAudio();
@@ -60,7 +60,7 @@ public class SoundManager implements Disposable {
     public void musicVolumeDown(float volumeUnit) {
         if (this.musicVolume <= 0) {
             this.musicVolume = 0;
-        } else if (this.musicVolume <= 1f) { //TODO : multiply by facteurVolume ?
+        } else if (this.musicVolume <= 1f) {
             this.musicVolume -= volumeUnit * facteurVolume;
             music.setVolume(musicVolume);
         }

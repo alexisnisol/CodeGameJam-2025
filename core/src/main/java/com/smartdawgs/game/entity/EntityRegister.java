@@ -1,10 +1,12 @@
-package com.smartdawgs.game;
+package com.smartdawgs.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.smartdawgs.game.entity.items.EntityItem;
+import com.smartdawgs.game.entity.items.EntityJukebox;
 import com.smartdawgs.game.items.Item;
+import com.smartdawgs.game.items.ItemDisque;
 import com.smartdawgs.game.world.WorldElement;
 
 public class EntityRegister {
@@ -13,6 +15,9 @@ public class EntityRegister {
     private static Sound sound(String path) {
         return Gdx.audio.newSound(Gdx.files.internal(path));
     }
+
+        public static Sound SOUND_EQUIP = sound("items/sound/item-equip.mp3");
+        public static Sound SOUND_DROP = sound("items/sound/item-drop.mp3");
 
     // MUSHROOM
     public static final Item MUSHROOM = new Item(
@@ -59,7 +64,7 @@ public class EntityRegister {
 
     public static final Item JUKEBOX = new Item(
         "JukeBox",
-        new Texture("items/sprite/JukeBox.png"),
+        new Texture("items/sprite/JukeBox_resized.png"),
         sound("items/sound/jukebox.wav")
     );
 
@@ -111,22 +116,22 @@ public class EntityRegister {
         sound("items/sound/shovel.wav") // Son de pelle puisqu'on creuse
     );
 
-    public static final Item DISQUE_1 = new Item(
+    public static final Item DISQUE_1 = new ItemDisque(
         "Disc 1",
         new Texture("items/sprite/disque1.png"),
         sound("items/sound/jukebox.wav")
     );
-    public static final Item DISQUE_2 = new Item(
+    public static final Item DISQUE_2 = new ItemDisque(
         "Disc 2",
         new Texture("items/sprite/disque2.png"),
         sound("items/sound/jukebox.wav")
     );
-    public static final Item DISQUE_3 = new Item(
+    public static final Item DISQUE_3 = new ItemDisque(
         "Disc 3",
         new Texture("items/sprite/disque3.png"),
         sound("items/sound/jukebox.wav")
     );
-    public static final Item DISQUE_4 = new Item(
+    public static final Item DISQUE_4 = new ItemDisque(
         "Disc 4",
         new Texture("items/sprite/disque4.png"),
         sound("items/sound/jukebox.wav")
@@ -153,6 +158,8 @@ public class EntityRegister {
         world.getEntities().add(new EntityItem(world, DISQUE_2).spawn(400, 700));
         world.getEntities().add(new EntityItem(world, DISQUE_3).spawn(1200, 1400));
         world.getEntities().add(new EntityItem(world, DISQUE_4).spawn(200, 175));
+        world.getEntities().add(new EntityJukebox(world, JUKEBOX).spawn(1450, 1250));
 
     }
 }
+

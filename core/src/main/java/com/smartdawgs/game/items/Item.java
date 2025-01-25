@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
 import lombok.Getter;
 
 @Getter
-public class Item implements Disposable {
+public class Item implements Disposable, Usable {
 
     private Texture texture;
     private String name;
@@ -15,6 +15,7 @@ public class Item implements Disposable {
     public Item(String name, Texture texture, Sound sound) {
         this.name = name;
         this.texture = texture;
+        this.sound = sound;
     }
 
     public void playSound() {
@@ -32,4 +33,8 @@ public class Item implements Disposable {
         }
     }
 
+    @Override
+    public void onUse() {
+        System.out.println(name + " was used!");
+    }
 }

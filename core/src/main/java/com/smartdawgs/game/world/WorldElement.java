@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.smartdawgs.game.EntityRegister;
+import com.smartdawgs.game.entity.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.gui.DialogPanel;

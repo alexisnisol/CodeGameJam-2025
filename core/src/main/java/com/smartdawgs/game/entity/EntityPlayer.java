@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.entity.items.EntityItem;
 import com.smartdawgs.game.gui.Inventory;
 import com.smartdawgs.game.utils.enums.Direction;
@@ -119,6 +118,7 @@ public class EntityPlayer extends Entity {
             EntityItem item = this.inventory.canDropItem();
             if (item != null) {
                 System.out.println("Item " + item + " was dropped");
+                EntityRegister.SOUND_DROP.play();
                 this.world.getEntities().add(item.spawn(this.getX(), this.getY()));
             }
         }
@@ -126,7 +126,7 @@ public class EntityPlayer extends Entity {
 
     private void useItem() {
         if (this.inventory.getCurrentItem() != null) {
-            this.inventory.getCurrentItem().onUse();
+            this.inventory.getCurrentItem().getItem().onUse();
         }
     }
 
@@ -137,7 +137,7 @@ public class EntityPlayer extends Entity {
             if (playerRect.overlaps(entity.getBoundingRectangle())) {
                 if (entity instanceof EntityItem) {
                     EntityItem item = (EntityItem) entity;
-                    item.interact();
+                    item.interact(this);
                 }
             }
             i++;
