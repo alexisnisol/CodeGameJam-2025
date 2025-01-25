@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="72">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="73">
  <tileset firstgid="1" source="Backyard - Act 1 Tile.tsx"/>
  <tileset firstgid="2177" source="City Act 1 - Tile map.tsx"/>
  <tileset firstgid="9831" source="Suspect House - Act 1 - Tiles.tsx"/>

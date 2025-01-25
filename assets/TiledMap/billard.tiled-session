@@ -9,22 +9,22 @@
     ],
     "fileStates": {
         "6nOD3a.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.25
         },
         "Acceuil.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.33
         },
         "Backyard - Act 1 Tile.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 3
         },
         "Bonus_Map.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.0625
         },
         "ChambrePerso.tsx": {
             "scaleInDock": 1
         },
         "City Act 1 - Tile map.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.125
         },
         "D:/interieur/billard.tsx": {
             "dynamicWrapping": false,
@@ -40,8 +40,8 @@
             "scale": 0.5,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 649,
-                "y": 1202
+                "x": 650,
+                "y": 1201
             }
         },
         "Map004.tsx": {
@@ -74,16 +74,16 @@
                 5,
                 4
             ],
-            "scale": 1.5,
-            "selectedLayer": 3,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 2698.333333333333,
-                "y": 2842
+                "x": 2993.25,
+                "y": 2813
             }
         },
         "billard.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.25
         },
         "billardD.tmx": {
             "expandedObjectLayers": [
@@ -94,8 +94,8 @@
             "scale": 0.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 3157,
-                "y": 3060
+                "x": 3088,
+                "y": 3223
             }
         },
         "blanc_horizon.tsx": {
@@ -105,31 +105,29 @@
             "scaleInDock": 1
         },
         "book shop2 (1).tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 3
         },
         "chambre.tsx": {
             "scaleInDock": 1
         },
         "chambrepersonnelle.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
             "scale": 1.5,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 2717,
-                "y": 2967.333333333333
+                "x": 3200,
+                "y": 3200.333333333333
             }
         },
         "entrepos.tmx": {
             "expandedObjectLayers": [
+                3,
                 2
             ],
             "scale": 0.75,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 2540.6666666666665,
-                "y": 3676
+                "x": 3200,
+                "y": 3200.6666666666665
             }
         },
         "examples.tsx": {

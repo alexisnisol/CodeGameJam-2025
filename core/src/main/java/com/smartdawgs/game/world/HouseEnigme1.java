@@ -50,7 +50,7 @@ public class HouseEnigme1 extends WorldElement {
 
     private void checkPlace() {
 
-        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("piece1"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null) {
             labelInteraction.setVisible(true);

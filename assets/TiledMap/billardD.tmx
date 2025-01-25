@@ -218,7 +218,7 @@
   <object id="7" x="2656.67" y="3409.33" width="94" height="60"/>
   <object id="8" x="2752" y="3458" width="204" height="50.6667"/>
   <object id="9" x="2809.33" y="3424" width="111.333" height="39.3334"/>
-  <object id="10" x="2788.67" y="3336.17" width="116" height="64.6667"/>
+  <object id="10" x="2788.67" y="3328.17" width="116" height="72.6667"/>
   <object id="11" x="2711.67" y="3323.67" width="38.6663" height="66.6667"/>
   <object id="12" x="2945" y="3409" width="188" height="58.6667"/>
   <object id="13" x="3327.67" y="3408.33" width="96.6663" height="65.3334"/>
@@ -254,7 +254,7 @@
   <object id="43" x="3260.33" y="2534.33" width="57.9996" height="136.667"/>
   <object id="48" x="3204" y="2398" width="532" height="224"/>
  </objectgroup>
- <objectgroup id="6" name="piece1">
+ <objectgroup id="6" name="piece1" visible="0">
   <object id="44" x="2664" y="2930" width="2"/>
   <object id="46" x="2658.06" y="2935.03" width="1178.3" height="593.939"/>
   <object id="49" name="sortie" x="2686" y="3250">
