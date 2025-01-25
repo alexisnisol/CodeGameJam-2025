@@ -68,6 +68,14 @@ public class DialogPanel {
         this.parentAlpha = 1f;
     }
 
+    public void draw(String title, String text) {
+        this.setTitle(title);
+        this.setText(text);
+        this.game.getPlayer().setSpeed(0f);
+        this.game.getSoundManager().setFacteurVolume(0f);
+        this.parentAlpha = 1f;
+    }
+
     public void hide() {
         this.game.getPlayer().setSpeed(100f);
         this.game.getSoundManager().setFacteurVolume(1f);
