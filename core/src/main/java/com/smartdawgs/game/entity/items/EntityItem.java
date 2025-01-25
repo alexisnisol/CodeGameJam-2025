@@ -37,10 +37,11 @@ public class EntityItem extends Entity implements Interactable {
 
     @Override
     public boolean interact(EntityPlayer player) {
-        EntityRegister.SOUND_EQUIP.play();
-        System.out.println(this.getItem().getName() + " was picked up!");
         if(this.world.getGame().getPlayer().getInventory().setCurrentItem(this)) {
             this.world.getEntities().remove(this);
+
+            EntityRegister.SOUND_EQUIP.play();
+            System.out.println(this.getItem().getName() + " was picked up!");
         }
         return true;
     }

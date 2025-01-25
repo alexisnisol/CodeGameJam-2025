@@ -58,7 +58,7 @@ public class Inventory implements Disposable {
         this.player.getWorld().getGame().getFont().draw(batch, text, 30, 30);
 
         this.currentItem.draw(batch);
-        this.currentItem.setPosition(textWidth + 7, -7);
+        this.currentItem.setPosition(textWidth + this.getItem().getTexture().getWidth() + 5, this.getItem().getTexture().getHeight()/2f);
     }
 
     @Override
