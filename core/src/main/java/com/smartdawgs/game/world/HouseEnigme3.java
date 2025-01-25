@@ -4,22 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.smartdawgs.game.Main;
 import com.smartdawgs.game.utils.WorldUtils;
 
-public class HouseEnigme1 extends WorldElement {
+public class HouseEnigme3 extends WorldElement {
 
     private World parent;
     private String nom;
 
-    public HouseEnigme1(World parent) {
-        super(parent.getGame(), "chambrepersonnelle");
+    public HouseEnigme3(World parent) {
+        super(parent.getGame(), "billardD");
         this.parent = parent;
-        this.nom = "house1";
+        this.nom = "house3";
         init();
     }
 

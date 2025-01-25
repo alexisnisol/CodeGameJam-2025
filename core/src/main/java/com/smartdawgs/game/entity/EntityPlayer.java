@@ -53,7 +53,7 @@ public class EntityPlayer extends Entity{
         super(atlas.findRegion("player_idle_1"));
         playerRect =new Rectangle(2, 2, 33, 38);
         playerRect.setPosition(getX(),getY());
-        this.speed=100f;
+        this.speed=200f;
         this.world = world;
         this.inventory = new Inventory(this);
 
