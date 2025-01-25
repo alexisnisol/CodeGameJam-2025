@@ -119,22 +119,26 @@ public class EntityRegister {
     public static final Item DISQUE_1 = new ItemDisque(
         "Disc 1",
         new Texture("items/sprite/disque1.png"),
-        sound("items/sound/jukebox.wav")
+        sound("items/sound/jukebox.wav"),
+        ItemDisque.DisqueType.INFLUENCE
     );
     public static final Item DISQUE_2 = new ItemDisque(
         "Disc 2",
         new Texture("items/sprite/disque2.png"),
-        sound("items/sound/jukebox.wav")
+        sound("items/sound/jukebox.wav"),
+        ItemDisque.DisqueType.HARMONIE
     );
     public static final Item DISQUE_3 = new ItemDisque(
         "Disc 3",
         new Texture("items/sprite/disque3.png"),
-        sound("items/sound/jukebox.wav")
+        sound("items/sound/jukebox.wav"),
+        ItemDisque.DisqueType.SECRET
     );
     public static final Item DISQUE_4 = new ItemDisque(
         "Disc 4",
         new Texture("items/sprite/disque4.png"),
-        sound("items/sound/jukebox.wav")
+        sound("items/sound/jukebox.wav"),
+        ItemDisque.DisqueType.AME
     );
 
     public static void registerEntities(WorldElement world) {

@@ -16,16 +16,6 @@ import java.util.TimerTask;
 
 public class World extends WorldElement {
 
-    private int nbDisque=0;
-
-    @Getter
-    private Boolean sonAnimaux=false;
-    @Getter
-    private Boolean sonObject=false;
-    @Getter
-    private Boolean deplacementObject=false;
-    @Getter
-    private Boolean journeaux=false;
 
     public World(Main game) {
         super(game, "GameJamTiledMap");
@@ -46,7 +36,7 @@ public class World extends WorldElement {
     }
 
     private void verifFin() {
-        if(nbDisque>=4) {
+        if(this.nbDisque>=4) {
             game.setScreen(new EcranTitre());
         }
     }
@@ -54,62 +44,6 @@ public class World extends WorldElement {
     public void logic() {
         super.logic();
         checkPlace();
-    }
-
-    public void disqueInfluence() {
-        this.deplacementObject=true;
-        jukeBox.setVisible(true);
-        jukeBox.setText("Et les objets retrouvèrent leur finalité");
-        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                jukeBox.setVisible(false);
-            }
-        }, 5000);
-    }
-
-    public void disqueHamonie() {
-        this.journeaux=true;
-        jukeBox.setVisible(true);
-        jukeBox.setText("Et le monde retrouva son état d’antan");
-        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                jukeBox.setVisible(false);
-            }
-        }, 5000);
-    }
-
-    public void disqueSecret() {
-        this.sonObject=true;
-        jukeBox.setVisible(true);
-        jukeBox.setText("Et les secrets du monde furent révélés");
-        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                jukeBox.setVisible(false);
-            }
-        }, 5000);
-    }
-
-    public void disqueAme() {
-        this.sonAnimaux=true;
-        jukeBox.setVisible(true);
-        jukeBox.setText("Et les êtres retrouvèrent leur raison");
-        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                jukeBox.setVisible(false);
-            }
-        }, 5000);
     }
 
     private void checkPlace() {
@@ -146,27 +80,6 @@ public class World extends WorldElement {
                 this.game.setScreen(new HouseEnigme4(this));
                 this.hide();
                 break;
-
-            case "influence":
-                disqueInfluence();
-                nbDisque+=1;
-                break;
-
-            case "harmonie":
-                disqueHamonie();
-                nbDisque+=1;
-                break;
-
-            case "ame":
-                disqueAme();
-                nbDisque+=1;
-                break;
-
-            case "secret":
-                disqueSecret();
-                nbDisque+=1;
-                break;
-
         }
     }
 

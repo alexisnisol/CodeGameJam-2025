@@ -23,11 +23,14 @@ import com.smartdawgs.game.entity.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.gui.DialogPanel;
+import com.smartdawgs.game.items.ItemDisque;
 import com.smartdawgs.game.utils.CollisionUtils;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class WorldElement implements Screen {
     @Getter
@@ -62,6 +65,17 @@ public abstract class WorldElement implements Screen {
     @Getter
     protected List<Entity> entities;
 
+    protected int nbDisque = 3;
+
+    @Getter
+    private boolean sonAnimaux = false;
+    @Getter
+    private boolean sonObject = false;
+    @Getter
+    private boolean sondeplacementObject = false;
+    @Getter
+    private boolean sonjourneaux = false;
+
     public WorldElement(Main game, String nameTiledMap) {
         this.game = game;
         this.batch = new SpriteBatch();
@@ -89,14 +103,16 @@ public abstract class WorldElement implements Screen {
         labelStyle.font = bitmapFont;
 
         // Création du label
-        labelInteraction = new Label("Appuyez sur la touche 'F'", labelStyle);
+        this.labelInteraction = new Label("Appuyez sur la touche 'F'", labelStyle);
+        this.jukeBox = new Label("Test", labelStyle);
 
         stage.addActor(labelInteraction);
+        stage.addActor(jukeBox);
 
         EntityRegister.registerEntities(this);
     }
 
-    protected void init(){
+    protected void init() {
     }
 
     protected void updateCamera() {
@@ -113,7 +129,7 @@ public abstract class WorldElement implements Screen {
     }
 
     private void checkDialog() {
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.getDialogPanel().hide();
         }
     }
@@ -126,7 +142,7 @@ public abstract class WorldElement implements Screen {
 
     public void postRender() {
         batch.begin();
-        for(Entity entity : this.entities){
+        for (Entity entity : this.entities) {
             entity.draw(batch);
         }
 
@@ -142,7 +158,7 @@ public abstract class WorldElement implements Screen {
         stage.act();
         stage.draw();
 
-        if(true) {
+        if (true) {
             // Utilisation de ShapeRenderer pour afficher les rectangles
             ShapeRenderer shapeRenderer = new ShapeRenderer();
             shapeRenderer.setProjectionMatrix(camera.combined);
@@ -153,15 +169,49 @@ public abstract class WorldElement implements Screen {
             shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
             shapeRenderer.end();
         }
-
     }
 
-    public void updateEntities(float delta){
+    public void updateEntities(float delta) {
         this.game.getPlayer().update(delta);
-        for(Entity entity : entities){
+        for (Entity entity : entities) {
             entity.update(delta);
         }
     }
+
+
+    public void addDisque(ItemDisque.DisqueType disqueType) {
+        this.nbDisque++;
+
+        if (disqueType.isDeplacementObject()) {
+            this.sondeplacementObject = true;
+        }
+        if (disqueType.isJourneaux()) {
+            this.sonjourneaux = true;
+        }
+        if (disqueType.isSonObject()) {
+            this.sonObject = true;
+        }
+        if (disqueType.isSonAnimaux()) {
+            this.sonAnimaux = true;
+        }
+
+        showDisk(disqueType.getText());
+    }
+
+    private void showDisk(String text) {
+        jukeBox.setVisible(true);
+        jukeBox.setText(text);
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
+    }
+
 
     protected void collision() {
         for (MapObject object : this.layerCollision) {
@@ -214,5 +264,4 @@ public abstract class WorldElement implements Screen {
     public void hide() {
 
     }
-
 }

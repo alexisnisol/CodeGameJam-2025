@@ -30,7 +30,6 @@ public class EntityPlayer extends Entity {
 
     private float deltaTest = 0;
 
-
     @Getter
     @Setter
     private WorldElement world;
