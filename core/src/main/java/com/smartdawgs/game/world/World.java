@@ -150,16 +150,7 @@ public class World extends WorldElement {
 
     private void verifFin() {
         if(nbDisque>=4) {
-            jukeBox.setVisible(true);
-            jukeBox.setText("Tu as ramené la musique dans ce monde, mais ce n’est pas la fin. C’est un cycle éternel : cette dimension se taira de nouveau, et quelqu’un devra à nouveau restaurer sa mélodie. La boucle ne cesse de se répéter. Néanmoins, à chaque renaissance, il reste une lueur d’espoir… La musique nous sauvera, toujours.");
-            jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    jukeBox.setVisible(false);
-                }
-            }, 25000);
+            game.setScreen(new EcranTitre()s);
         }
     }
 
