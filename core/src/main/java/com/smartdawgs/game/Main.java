@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.smartdawgs.game.entity.EntityPlayer;
+import com.smartdawgs.game.gui.ScreenDead;
 import com.smartdawgs.game.sound.SoundManager;
-import com.smartdawgs.game.world.HouseEnigme1;
 import com.smartdawgs.game.utils.Utils;
 import com.smartdawgs.game.world.World;
 import com.smartdawgs.game.world.WorldElement;
@@ -23,10 +23,16 @@ public class Main extends Game {
     private BitmapFont font;
     private GlyphLayout glyphLayout;
 
+    private World world;
+
     @Override
     public void create() {
+        initialize();
+    }
+
+    public void initialize() {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
-        World world = new World(this);
+        this.world = new World(this);
         this.player = new EntityPlayer(playerAtlas, world);
         soundManager = new SoundManager();
         soundManager.playMusic();
@@ -35,18 +41,38 @@ public class Main extends Game {
         this.glyphLayout = new GlyphLayout();
     }
 
+    public void reset() {
+        dispose();
+        initialize();
+    }
+
     @Override
     public void render() {
         super.render();
 
         float delta = 1 / 1000f;
         soundManager.musicVolumeDown(delta);
+
+        if(this.soundManager.getMusicVolume() == 0) {
+            this.youAreDead();
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        soundManager.dispose();
+        if (soundManager != null) {
+            soundManager.dispose();
+        }
+        if (font != null) {
+            font.dispose();
+        }
+
+        //TODO : Check if it's necessary to dispose the world and player
+
+        if (player != null) {
+            player.dispose();
+        }
     }
 
     @Override
@@ -55,5 +81,14 @@ public class Main extends Game {
             this.getPlayer().setWorld((WorldElement) screen);
         }
         super.setScreen(screen);
+    }
+
+    public void youAreDead() {
+        dispose();
+        ScreenDead screenDead = new ScreenDead(this);
+        this.setScreen(screenDead);
+        soundManager = new SoundManager();
+    }
+    public void addTime(){
     }
 }

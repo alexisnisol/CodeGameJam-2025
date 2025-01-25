@@ -3,11 +3,12 @@ package com.smartdawgs.game.gui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Disposable;
 import com.smartdawgs.game.entity.EntityPlayer;
 import com.smartdawgs.game.entity.items.EntityItem;
 import lombok.Getter;
 
-public class Inventory {
+public class Inventory implements Disposable {
 
     @Getter
     private EntityItem currentItem;
@@ -57,5 +58,12 @@ public class Inventory {
         return "Inventory{" +
                 "currentItem=" + currentItem +
                 '}';
+    }
+
+    @Override
+    public void dispose() {
+        if(currentItem != null){
+            currentItem.getItem().dispose();
+        }
     }
 }

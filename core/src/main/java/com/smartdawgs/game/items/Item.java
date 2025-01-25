@@ -2,10 +2,11 @@ package com.smartdawgs.game.items;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Disposable;
 import lombok.Getter;
 
 @Getter
-public class Item {
+public class Item implements Disposable {
 
     private Texture texture;
     private String name;
@@ -19,6 +20,15 @@ public class Item {
     public void playSound() {
         if (sound != null) {
             sound.play(1.0f);
+        }
+    }
+
+    public void dispose() {
+        if (texture != null) {
+            texture.dispose();
+        }
+        if (sound != null) {
+            sound.dispose();
         }
     }
 

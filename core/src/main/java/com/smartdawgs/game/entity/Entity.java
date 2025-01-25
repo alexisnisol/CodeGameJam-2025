@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 
-public abstract class Entity extends Sprite {
+public abstract class Entity extends Sprite implements Disposable {
 
     public Entity(TextureAtlas.AtlasRegion region) {
         super(region);
@@ -24,5 +25,9 @@ public abstract class Entity extends Sprite {
             regions[i] = atlas.findRegion(name + "_" + (i + 1));
         }
         return new Animation<TextureRegion>(duration, regions);
+    }
+
+    public void dispose() {
+        super.getTexture().dispose();
     }
 }
