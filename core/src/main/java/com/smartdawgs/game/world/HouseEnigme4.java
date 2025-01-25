@@ -4,35 +4,39 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.smartdawgs.game.Main;
 import com.smartdawgs.game.utils.WorldUtils;
 
-public class HouseEnigme1 extends WorldElement {
+public class HouseEnigme4 extends WorldElement {
 
     private World parent;
     private String nom;
 
-    public HouseEnigme1(World parent) {
-        super(parent.getGame(), "chambrepersonnelle");
+    public HouseEnigme4(World parent) {
+        super(parent.getGame(), "acceuiletchambre");
         this.parent = parent;
-        this.nom = "house1";
+        this.nom = "house4";
         init();
     }
 
     public void init() {
         Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("piece1"), "sortie");
         this.game.getPlayer().setPosition(position.x, position.y);
+        labAction = nom;
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        draw();
-        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
+        if (labAction.isEmpty()) {
+            parent.show();
+            this.game.setScreen(parent.init(nom));
+            this.dispose();
+        } else {
+            logic();
+            draw();
+        }
     }
 
     public void logic() {
@@ -42,7 +46,6 @@ public class HouseEnigme1 extends WorldElement {
     }
 
     private void checkPlace() {
-
         MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("piece1"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null) {
@@ -51,19 +54,11 @@ public class HouseEnigme1 extends WorldElement {
             labelInteraction.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
             if (Gdx.input.isKeyPressed(Input.Keys.F) && stateTime - deltaTest > 0.5) {
                 deltaTest = stateTime;
-                interactWithElement("exit");
+                labAction = "";
             }
         } else {
             labelInteraction.setVisible(false);
-        }
-    }
-
-    private void interactWithElement(String element) {
-        switch (element) {
-            case "exit":
-                parent.show();
-                this.game.setScreen(parent.init(nom));
-                this.dispose();
+            labAction = nom;
         }
     }
 
