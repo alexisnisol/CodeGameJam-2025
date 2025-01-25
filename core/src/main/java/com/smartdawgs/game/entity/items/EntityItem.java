@@ -36,6 +36,7 @@ public class EntityItem extends Entity implements Interactable {
 
     @Override
     public boolean interact() {
+        this.item.playSound(); // Test si fonctionnel
         System.out.println(this.getItem().getName() + " was picked up!");
         if(this.world.getGame().getPlayer().getInventory().setCurrentItem(this)) {
             this.world.getEntities().remove(this);
