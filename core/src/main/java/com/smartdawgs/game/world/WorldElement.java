@@ -158,7 +158,7 @@ public abstract class WorldElement implements Screen {
         stage.act();
         stage.draw();
 
-        if (true) {
+        if (false) {// MEMORY LEAK
             // Utilisation de ShapeRenderer pour afficher les rectangles
             ShapeRenderer shapeRenderer = new ShapeRenderer();
             shapeRenderer.setProjectionMatrix(camera.combined);
