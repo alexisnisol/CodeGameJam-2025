@@ -2,6 +2,7 @@ package com.smartdawgs.game.items;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.smartdawgs.game.entity.EntityPlayer;
 
 public class ItemDisque extends Item{
 
@@ -10,7 +11,7 @@ public class ItemDisque extends Item{
     }
 
     @Override
-    public void onUse() {
+    public void onUse(EntityPlayer player) {
         System.out.println("Disque was used!");
     }
 }

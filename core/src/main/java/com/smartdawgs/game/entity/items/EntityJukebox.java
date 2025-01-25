@@ -17,7 +17,7 @@ public class EntityJukebox extends InteractableEntityItem {
 
         if(playerItem instanceof ItemDisque) {
             this.getItem().playSound();
-            playerItem.onUse(player);
+            player.useItem();
             player.getInventory().canDropItem();
         }
         return true;

@@ -124,9 +124,9 @@ public class EntityPlayer extends Entity {
         }
     }
 
-    private void useItem() {
+    public void useItem() {
         if (this.inventory.getCurrentItem() != null) {
-            this.inventory.getCurrentItem().getItem().onUse();
+            this.inventory.getCurrentItem().getItem().onUse(this);
         }
     }
 
