@@ -27,10 +27,6 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        initialize();
-    }
-
-    public void initialize() {
         TextureAtlas playerAtlas = new TextureAtlas(Utils.getInternalPath("atlas/player_atlas.atlas"));
         this.world = new World(this);
         this.player = new EntityPlayer(playerAtlas, world);
@@ -43,7 +39,7 @@ public class Main extends Game {
 
     public void reset() {
         dispose();
-        initialize();
+        create();
     }
 
     @Override
