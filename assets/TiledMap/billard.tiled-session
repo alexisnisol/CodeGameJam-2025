@@ -3,62 +3,149 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "acceuiletchambre.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "6nOD3a.tsx": {
+            "scaleInDock": 1
+        },
+        "Acceuil.tsx": {
+            "scaleInDock": 1
+        },
+        "Backyard - Act 1 Tile.tsx": {
+            "scaleInDock": 1
+        },
+        "Bonus_Map.tsx": {
+            "scaleInDock": 1
+        },
+        "ChambrePerso.tsx": {
+            "scaleInDock": 1
+        },
+        "City Act 1 - Tile map.tsx": {
+            "scaleInDock": 1
+        },
         "D:/interieur/billard.tsx": {
             "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Entrepos.tsx": {
+            "scaleInDock": 1
+        },
+        "GameJamTiledMap.tmx": {
+            "expandedObjectLayers": [
+                15
+            ],
+            "scale": 0.5,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 989,
+                "y": 716
+            }
+        },
+        "Map004.tsx": {
+            "scaleInDock": 1
+        },
+        "Map009.tsx": {
+            "scaleInDock": 1
+        },
+        "Map01.tsx": {
+            "scaleInDock": 1
+        },
+        "Map012.tsx": {
+            "scaleInDock": 1
+        },
+        "MedievalHousesFree2.tsx": {
+            "scaleInDock": 1
+        },
+        "Suspect House - Act 1 - Tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "Tile Map - Entrance Apartment Act 1.tsx": {
+            "scaleInDock": 1
+        },
+        "UNo513-Photoroom.tsx": {
             "scaleInDock": 1
         },
         "acceuiletchambre.tmx": {
             "expandedObjectLayers": [
                 5,
-                3,
-                4
+                4,
+                3
             ],
-            "scale": 0.5,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 2635,
-                "y": 2740
+                "x": 2789.5,
+                "y": 2583
             }
         },
         "billard.tsx": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1
         },
         "billardD.tmx": {
             "expandedObjectLayers": [
-                5
+                5,
+                7,
+                6
             ],
             "scale": 0.5,
-            "selectedLayer": 3,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 2920,
-                "y": 3054
+                "x": 3377,
+                "y": 3194
             }
+        },
+        "blanc_horizon.tsx": {
+            "scaleInDock": 1
+        },
+        "blanc_vertical.tsx": {
+            "scaleInDock": 1
+        },
+        "book shop2 (1).tsx": {
+            "scaleInDock": 1
+        },
+        "chambre.tsx": {
+            "scaleInDock": 1
         },
         "chambrepersonnelle.tmx": {
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 1,
+            "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 2940.5,
-                "y": 2719
+                "x": 2963.6666666666665,
+                "y": 2800
             }
         },
         "entrepos.tmx": {
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 0.5,
+            "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 2807,
-                "y": 3102
+                "x": 2562,
+                "y": 3073.333333333333
             }
+        },
+        "examples.tsx": {
+            "scaleInDock": 1
+        },
+        "examples_2.tsx": {
+            "scaleInDock": 1
+        },
+        "route.tsx": {
+            "scaleInDock": 1
+        },
+        "sdb.tsx": {
+            "scaleInDock": 1
+        },
+        "tileset_autumn.tsx": {
+            "scaleInDock": 1
         }
     },
     "last.imagePath": "D:/Map_s_Psd_s",
@@ -66,9 +153,20 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 200,
     "openFiles": [
+        "billardD.tmx",
+        "GameJamTiledMap.tmx",
+        "chambrepersonnelle.tmx",
+        "entrepos.tmx",
+        "acceuiletchambre.tmx"
     ],
     "project": "billard.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
+        "billardD.tmx",
+        "GameJamTiledMap.tmx",
+        "chambrepersonnelle.tmx",
+        "entrepos.tmx",
+        "acceuiletchambre.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

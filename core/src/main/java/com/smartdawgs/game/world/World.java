@@ -41,7 +41,17 @@ public class World extends WorldElement {
                 this.game.setScreen(new HouseEnigme1(this));
                 this.hide();
                 break;
-            case "HouseEnigme2":
+            case "house2":
+                this.game.setScreen(new HouseEnigme2(this));
+                this.hide();
+                break;
+            case "house3":
+                this.game.setScreen(new HouseEnigme3(this));
+                this.hide();
+                break;
+            case "house4":
+                this.game.setScreen(new HouseEnigme4(this));
+                this.hide();
                 break;
 
             default:
