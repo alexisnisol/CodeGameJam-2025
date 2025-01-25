@@ -65,7 +65,7 @@ public abstract class WorldElement implements Screen {
     @Getter
     protected List<Entity> entities;
 
-    protected int nbDisque = 3;
+    protected int nbDisque = 0;
 
     @Getter
     private boolean sonAnimaux = false;

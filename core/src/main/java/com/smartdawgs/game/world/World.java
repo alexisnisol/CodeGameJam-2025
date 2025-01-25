@@ -7,12 +7,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.gui.ScreenEndgame;
 import com.smartdawgs.game.utils.WorldUtils;
-import lombok.Getter;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class World extends WorldElement {
 
@@ -37,7 +35,7 @@ public class World extends WorldElement {
 
     private void verifFin() {
         if(this.nbDisque>=4) {
-            game.setScreen(new EcranTitre());
+            game.setScreen(new ScreenEndgame());
         }
     }
 

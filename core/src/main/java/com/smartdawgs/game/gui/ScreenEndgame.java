@@ -1,14 +1,13 @@
-package com.smartdawgs.game.world;
+package com.smartdawgs.game.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class EcranTitre implements Screen {
+public class ScreenEndgame implements Screen {
     private SpriteBatch batch;
     private BitmapFont font;
     private float creditY;
@@ -23,7 +22,7 @@ public class EcranTitre implements Screen {
     private final String creditsText="Credit";
 
 
-    public EcranTitre() {
+    public ScreenEndgame() {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.getData().setScale(1.2f);
@@ -59,12 +58,13 @@ public class EcranTitre implements Screen {
         // Fermer l'écran après le générique
         if (creditY > Gdx.graphics.getHeight() + 400) {
             Gdx.app.exit();
+            System.exit(0);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-        // Gérer le redimensionnement si nécessaire
+        this.batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 
     @Override

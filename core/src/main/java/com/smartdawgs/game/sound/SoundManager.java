@@ -12,11 +12,11 @@ public class SoundManager implements Disposable {
     @Getter
     private float musicVolume;
     @Setter
-    private float facteurVolume = 1f;
+    private float facteurVolume = 0.1f;
 
     public SoundManager() {
         miniAudio = new MiniAudio();
-        musicVolume = 1f;
+        musicVolume = 0.8f;
         randomMusic();
     }
 
