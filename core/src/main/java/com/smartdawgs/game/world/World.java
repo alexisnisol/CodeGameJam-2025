@@ -54,6 +54,11 @@ public class World extends WorldElement {
     public void logic() {
         super.logic();
         checkPlace();
+
+        if(labAction != "" && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            this.getDialogPanel().hide();
+            labAction = "";
+        }
     }
 
     private void checkPlace() {

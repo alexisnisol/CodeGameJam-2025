@@ -35,6 +35,7 @@ public abstract class WorldElement implements Screen {
 
     protected SpriteBatch batch;
     private SpriteBatch hudBatch;
+    @Getter
     private DialogPanel dialogPanel;
 
     protected OrthographicCamera camera;
