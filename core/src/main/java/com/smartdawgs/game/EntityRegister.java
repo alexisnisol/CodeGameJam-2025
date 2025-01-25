@@ -135,24 +135,25 @@ public class EntityRegister {
 
     public static void registerEntities(World world) {
 
-        // Exemple : On enregistre quelques entités dans le monde
-        world.getEntities().add(new EntityItem(world, WATER_BUCKET).spawn(100, 100));
-        world.getEntities().add(new EntityItem(world, CHEST_KEY).spawn(150, 100));
-        world.getEntities().add(new EntityItem(world, BUCKET).spawn(200, 100));
-        world.getEntities().add(new EntityItem(world, FIRELIGHTER).spawn(250, 100));
-        world.getEntities().add(new EntityItem(world, MUSHROOM).spawn(300, 100));
-        world.getEntities().add(new EntityItem(world, BLACK_KEY).spawn(0, 0));
-        world.getEntities().add(new EntityItem(world, RED_KEY).spawn(400, 100));
-        //world.getEntities().add(new EntityItem(world, CHEST).spawn(450, 100));
-        world.getEntities().add(new EntityItem(world, HAMMER).spawn(500, 100));
-        //world.getEntities().add(new EntityItem(world, TREASURE).spawn(550, 100));
-        //world.getEntities().add(new EntityItemBook(world, JOURNAL).spawn(550, 100));
+        // Exemple : On enregistre quelques entités dans le monde, avec des positions espacées
+        world.getEntities().add(new EntityItem(world, WATER_BUCKET).spawn(700, 850));
+        world.getEntities().add(new EntityItem(world, CHEST_KEY).spawn(1500, 800));
+        world.getEntities().add(new EntityItem(world, BUCKET).spawn(300, 1100));
+        world.getEntities().add(new EntityItem(world, FIRELIGHTER).spawn(1800, 1800));
+        world.getEntities().add(new EntityItem(world, MUSHROOM).spawn(100, 500));
+        world.getEntities().add(new EntityItem(world, BLACK_KEY).spawn(900, 1200));
+        world.getEntities().add(new EntityItem(world, RED_KEY).spawn(900, 400));
+        // world.getEntities().add(new EntityItem(world, CHEST).spawn(450, 100)); // si besoin plus tard
+        world.getEntities().add(new EntityItem(world, HAMMER).spawn(1600, 400));
+        // world.getEntities().add(new EntityItem(world, TREASURE).spawn(550, 100)); // si besoin plus tard
+        // world.getEntities().add(new EntityItemBook(world, JOURNAL).spawn(550, 100)); // si besoin plus tard
 
-        world.getEntities().add(new EntityItem(world, SHOVEL).spawn(600, 100));
-        world.getEntities().add(new EntityItem(world, SCISSORS).spawn(650, 100));
-        world.getEntities().add(new EntityItem(world, DISQUE_1).spawn(750, 100));
-        world.getEntities().add(new EntityItem(world, DISQUE_2).spawn(850, 100));
-        world.getEntities().add(new EntityItem(world, DISQUE_3).spawn(950, 100));
-        world.getEntities().add(new EntityItem(world, DISQUE_4).spawn(1050, 100));
+        world.getEntities().add(new EntityItem(world, SHOVEL).spawn(1200, 175));
+        world.getEntities().add(new EntityItem(world, SCISSORS).spawn(600, 900));
+        world.getEntities().add(new EntityItem(world, DISQUE_1).spawn(1700, 1400));
+        world.getEntities().add(new EntityItem(world, DISQUE_2).spawn(400, 700));
+        world.getEntities().add(new EntityItem(world, DISQUE_3).spawn(1200, 1400));
+        world.getEntities().add(new EntityItem(world, DISQUE_4).spawn(200, 175));
+
     }
 }
