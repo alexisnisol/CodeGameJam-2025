@@ -1,8 +1,9 @@
 package com.smartdawgs.game.entity.items;
 
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.entity.EntityPlayer;
+import com.smartdawgs.game.entity.EntityRegister;
 import com.smartdawgs.game.items.Item;
-import com.smartdawgs.game.world.World;
 import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 
@@ -35,18 +36,14 @@ public class EntityItem extends Entity implements Interactable {
     }
 
     @Override
-    public boolean interact() {
-        System.out.println(this.getItem().getName() + " was picked up!");
+    public boolean interact(EntityPlayer player) {
         if(this.world.getGame().getPlayer().getInventory().setCurrentItem(this)) {
             this.world.getEntities().remove(this);
+
+            EntityRegister.SOUND_EQUIP.play();
+            System.out.println(this.getItem().getName() + " was picked up!");
         }
         return true;
     }
-
-    public void onUse() {
-
-    }
-
-
 
 }

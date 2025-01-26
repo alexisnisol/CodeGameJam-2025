@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.smartdawgs.game.EntityRegister;
 import com.smartdawgs.game.entity.items.EntityItem;
 import com.smartdawgs.game.gui.Inventory;
 import com.smartdawgs.game.utils.enums.Direction;
@@ -16,7 +15,7 @@ import com.smartdawgs.game.world.WorldElement;
 import lombok.Getter;
 import lombok.Setter;
 
-public class EntityPlayer extends Entity{
+public class EntityPlayer extends Entity {
 
     @Getter
     @Setter
@@ -31,7 +30,6 @@ public class EntityPlayer extends Entity{
 
     private float deltaTest = 0;
 
-
     @Getter
     @Setter
     private WorldElement world;
@@ -41,8 +39,8 @@ public class EntityPlayer extends Entity{
 
     // Animation for idle
     private Animation<TextureRegion> idleAnimation;
-    private  Animation<TextureRegion> idleSideAnimation;
-    private  Animation<TextureRegion> idleBackAnimation;
+    private Animation<TextureRegion> idleSideAnimation;
+    private Animation<TextureRegion> idleBackAnimation;
 
     // Animation for walking
     private Animation<TextureRegion> walkAnimation;
@@ -51,9 +49,9 @@ public class EntityPlayer extends Entity{
 
     public EntityPlayer(TextureAtlas atlas, World world) {
         super(atlas.findRegion("player_idle_1"));
-        playerRect =new Rectangle(2, 2, 33, 38);
-        playerRect.setPosition(getX(),getY());
-        this.speed=100f;
+        playerRect = new Rectangle(0, 0, 33, 38);
+        playerRect.setPosition(getX(), getY());
+        this.speed = 100f;
         this.world = world;
         this.inventory = new Inventory(this);
 
@@ -75,7 +73,7 @@ public class EntityPlayer extends Entity{
     public void update(float delta) {
         stateTime += delta;
         handleInput(delta);
-        playerRect.setPosition(getX() + 7,getY() - 8);
+        playerRect.setPosition(getX() + 10, getY() - 12);
     }
 
     public void handleInput(float delta) {
@@ -86,12 +84,12 @@ public class EntityPlayer extends Entity{
             this.isMoving = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.translateY(- speed * delta);
+            this.translateY(-speed * delta);
             this.direction = Direction.DOWN;
             this.isMoving = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            this.translateX(- speed * delta);
+            this.translateX(-speed * delta);
             this.direction = Direction.LEFT;
             this.isMoving = true;
         }
@@ -110,7 +108,7 @@ public class EntityPlayer extends Entity{
             deltaTest = stateTime;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.Y) && stateTime - deltaTest > 0.5){
+        if (Gdx.input.isKeyPressed(Input.Keys.Y) && stateTime - deltaTest > 0.5) {
             this.world.getEntities().add(new EntityItem(this.world, EntityRegister.MUSHROOM).spawn(this.getX(), this.getY()));
             deltaTest = stateTime;
         }
@@ -119,14 +117,15 @@ public class EntityPlayer extends Entity{
             EntityItem item = this.inventory.canDropItem();
             if (item != null) {
                 System.out.println("Item " + item + " was dropped");
+                EntityRegister.SOUND_DROP.play();
                 this.world.getEntities().add(item.spawn(this.getX(), this.getY()));
             }
         }
     }
 
-    private void useItem() {
-        if(this.inventory.getCurrentItem() != null){
-            this.inventory.getCurrentItem().onUse();
+    public void useItem() {
+        if (this.inventory.getCurrentItem() != null) {
+            this.inventory.getCurrentItem().getItem().onUse(this);
         }
     }
 
@@ -137,7 +136,7 @@ public class EntityPlayer extends Entity{
             if (playerRect.overlaps(entity.getBoundingRectangle())) {
                 if (entity instanceof EntityItem) {
                     EntityItem item = (EntityItem) entity;
-                    item.interact();
+                    item.interact(this);
                 }
             }
             i++;
@@ -164,5 +163,10 @@ public class EntityPlayer extends Entity{
         }
 
         batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+    }
+
+    public void dispose() {
+        super.dispose();
+        inventory.dispose();
     }
 }

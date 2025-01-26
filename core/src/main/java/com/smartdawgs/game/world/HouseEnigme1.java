@@ -17,24 +17,22 @@ public class HouseEnigme1 extends WorldElement {
     private String nom;
 
     public HouseEnigme1(World parent) {
-        super(parent.getGame(), "chambrepersonnelle");
+        this(parent, "chambrepersonnelle", "house1");
+    }
+
+    public HouseEnigme1(World parent, String tiledMap, String nom) {
+        super(parent.getGame(), tiledMap);
         this.parent = parent;
-        this.nom = "house1";
+        this.nom = nom;
         init();
     }
 
     public void init() {
-        Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("collision"), "sortie");
+        Vector2 position = WorldUtils.getPoint(this.map.getLayers().get("piece1"), "sortie");
         this.game.getPlayer().setPosition(position.x, position.y);
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-        draw();
-        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
-    }
-
     public void logic() {
         super.logic();
         checkPlace();
@@ -43,7 +41,7 @@ public class HouseEnigme1 extends WorldElement {
 
     private void checkPlace() {
 
-        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("collision"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
+        MapObject nearlyPoint = WorldUtils.getNearlyPoint(map.getLayers().get("piece1"), this.game.getPlayer().getX(), this.game.getPlayer().getY(), 50f);
 
         if(nearlyPoint != null) {
             labelInteraction.setVisible(true);
@@ -67,19 +65,9 @@ public class HouseEnigme1 extends WorldElement {
         }
     }
 
+    @Override
     public void draw() {
         super.preRender();
-
-        // Utilisation de ShapeRenderer pour afficher les rectangles
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-        // Dessiner le rectangle du joueur
-        Rectangle playerRect = game.getPlayer().getPlayerRect();
-        shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
-        shapeRenderer.end();
-
 
         mapRenderer.setView(camera);
         mapRenderer.render();

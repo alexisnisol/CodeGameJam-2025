@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -13,19 +14,24 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.smartdawgs.game.EntityRegister;
+import com.smartdawgs.game.entity.EntityRegister;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
 import com.smartdawgs.game.gui.DialogPanel;
+import com.smartdawgs.game.gui.ScreenEndgame;
+import com.smartdawgs.game.items.ItemDisque;
 import com.smartdawgs.game.utils.CollisionUtils;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class WorldElement implements Screen {
     @Getter
@@ -50,6 +56,7 @@ public abstract class WorldElement implements Screen {
 
     protected Stage stage;
     protected Label labelInteraction;
+    protected Label jukeBox;
     protected BitmapFont bitmapFont;
 
     protected MapObjects layerCollision;
@@ -58,6 +65,17 @@ public abstract class WorldElement implements Screen {
 
     @Getter
     protected List<Entity> entities;
+
+    protected int nbDisque = 0;
+
+    @Getter
+    private boolean sonAnimaux = false;
+    @Getter
+    private boolean sonObject = false;
+    @Getter
+    private boolean sondeplacementObject = false;
+    @Getter
+    private boolean sonjourneaux = false;
 
     public WorldElement(Main game, String nameTiledMap) {
         this.game = game;
@@ -86,14 +104,16 @@ public abstract class WorldElement implements Screen {
         labelStyle.font = bitmapFont;
 
         // Création du label
-        labelInteraction = new Label("Appuyez sur la touche 'F'", labelStyle);
+        this.labelInteraction = new Label("Appuyez sur la touche 'F'", labelStyle);
+        this.jukeBox = new Label("Test", labelStyle);
 
         stage.addActor(labelInteraction);
+        stage.addActor(jukeBox);
 
         EntityRegister.registerEntities(this);
     }
 
-    protected void init(){
+    protected void init() {
     }
 
     protected void updateCamera() {
@@ -106,12 +126,20 @@ public abstract class WorldElement implements Screen {
         updateCamera();
         collision();
         updateEntities(Gdx.graphics.getDeltaTime());
-        checkDialog();
+        checkInputDialog();
+        checkEnd();
     }
 
-    private void checkDialog() {
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+    private void checkInputDialog() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.getDialogPanel().hide();
+        }
+    }
+
+    private void checkEnd() {
+        if(this.nbDisque>=4) {
+            game.setScreen(new ScreenEndgame());
         }
     }
 
@@ -123,7 +151,7 @@ public abstract class WorldElement implements Screen {
 
     public void postRender() {
         batch.begin();
-        for(Entity entity : this.entities){
+        for (Entity entity : this.entities) {
             entity.draw(batch);
         }
 
@@ -139,14 +167,60 @@ public abstract class WorldElement implements Screen {
         stage.act();
         stage.draw();
 
+        if (false) {// MEMORY LEAK
+            // Utilisation de ShapeRenderer pour afficher les rectangles
+            ShapeRenderer shapeRenderer = new ShapeRenderer();
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+            // Dessiner le rectangle du joueur
+            Rectangle playerRect = game.getPlayer().getPlayerRect();
+            shapeRenderer.rect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
+            shapeRenderer.end();
+        }
     }
 
-    public void updateEntities(float delta){
+    public void updateEntities(float delta) {
         this.game.getPlayer().update(delta);
-        for(Entity entity : entities){
+        for (Entity entity : entities) {
             entity.update(delta);
         }
     }
+
+
+    public void addDisque(ItemDisque.DisqueType disqueType) {
+        this.nbDisque++;
+
+        if (disqueType.isDeplacementObject()) {
+            this.sondeplacementObject = true;
+        }
+        if (disqueType.isJourneaux()) {
+            this.sonjourneaux = true;
+        }
+        if (disqueType.isSonObject()) {
+            this.sonObject = true;
+        }
+        if (disqueType.isSonAnimaux()) {
+            this.sonAnimaux = true;
+        }
+
+        showDisk(disqueType.getText());
+    }
+
+    private void showDisk(String text) {
+        jukeBox.setVisible(true);
+        jukeBox.setText(text);
+        jukeBox.setPosition(game.getPlayer().getX(), game.getPlayer().getY() + 10);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                jukeBox.setVisible(false);
+            }
+        }, 5000);
+    }
+
 
     protected void collision() {
         for (MapObject object : this.layerCollision) {
@@ -176,6 +250,8 @@ public abstract class WorldElement implements Screen {
     @Override
     public void render(float delta) {
         this.stateTime += delta;
+        draw();
+        logic(); //Logic est après draw pour s'assurer que le changement de map (dispose) ne soit pas appelé avant le draw (sinon crash)
     }
 
     @Override
@@ -200,4 +276,5 @@ public abstract class WorldElement implements Screen {
 
     }
 
+    public abstract void draw();
 }

@@ -1,6 +1,8 @@
 package com.smartdawgs.game.entity.items;
 
+import com.smartdawgs.game.entity.EntityPlayer;
+
 public interface Interactable {
 
-    boolean interact();
+    boolean interact(EntityPlayer player);
 }

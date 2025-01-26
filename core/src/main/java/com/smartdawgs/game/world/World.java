@@ -2,26 +2,18 @@ package com.smartdawgs.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.smartdawgs.game.Main;
 import com.smartdawgs.game.entity.Entity;
+import com.smartdawgs.game.gui.ScreenEndgame;
 import com.smartdawgs.game.utils.WorldUtils;
 
 import java.util.List;
 
 public class World extends WorldElement {
+
 
     public World(Main game) {
         super(game, "GameJamTiledMap");
@@ -34,12 +26,6 @@ public class World extends WorldElement {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-        draw();
-        logic();
-    }
-
     public void logic() {
         super.logic();
         checkPlace();
@@ -67,11 +53,22 @@ public class World extends WorldElement {
                 this.game.setScreen(new HouseEnigme1(this));
                 this.hide();
                 break;
-            case "HouseEnigme2":
+            case "house2":
+                this.game.setScreen(new HouseEnigme2(this));
+                this.hide();
+                break;
+            case "house3":
+                this.game.setScreen(new HouseEnigme3(this));
+                this.hide();
+                break;
+            case "house4":
+                this.game.setScreen(new HouseEnigme4(this));
+                this.hide();
                 break;
         }
     }
 
+    @Override
     public void draw() {
         super.preRender();
 

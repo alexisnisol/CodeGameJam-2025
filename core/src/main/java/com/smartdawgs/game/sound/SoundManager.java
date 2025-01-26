@@ -3,16 +3,20 @@ package com.smartdawgs.game.sound;
 import com.badlogic.gdx.utils.Disposable;
 import games.rednblack.miniaudio.MASound;
 import games.rednblack.miniaudio.MiniAudio;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SoundManager implements Disposable {
     private final MiniAudio miniAudio;
     private MASound music;
+    @Getter
     private float musicVolume;
-    private float facteurVolume = 1f;
+    @Setter
+    private float facteurVolume = 0.1f;
 
     public SoundManager() {
         miniAudio = new MiniAudio();
-        musicVolume = 1f;
+        musicVolume = 0.8f;
         randomMusic();
     }
 
@@ -32,10 +36,6 @@ public class SoundManager implements Disposable {
         public String getPath() {
             return path;
         }
-    }
-
-    public void setFacteurVolume(float facteurVolume) {
-        this.facteurVolume = facteurVolume;
     }
 
     private void randomMusic() {
@@ -58,7 +58,7 @@ public class SoundManager implements Disposable {
     }
 
     public void musicVolumeDown(float volumeUnit) {
-        if (this.musicVolume - (volumeUnit) < 0) {
+        if (this.musicVolume <= 0) {
             this.musicVolume = 0;
         } else if (this.musicVolume <= 1f) {
             this.musicVolume -= volumeUnit * facteurVolume;
