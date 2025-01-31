@@ -41,11 +41,11 @@ public abstract class WorldElement implements Screen {
     protected float deltaTest = 0;
 
     protected SpriteBatch batch;
-    private SpriteBatch hudBatch;
     @Getter
     private DialogPanel dialogPanel;
 
     protected OrthographicCamera camera;
+    @Getter
     protected FitViewport viewport;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
@@ -80,7 +80,6 @@ public abstract class WorldElement implements Screen {
     public WorldElement(Main game, String nameTiledMap) {
         this.game = game;
         this.batch = new SpriteBatch();
-        this.hudBatch = new SpriteBatch();
         this.dialogPanel = new DialogPanel(this.game);
 
         this.entities = new ArrayList<>();
@@ -105,7 +104,7 @@ public abstract class WorldElement implements Screen {
 
         // Création du label
         this.labelInteraction = new Label("Appuyez sur la touche 'F'", labelStyle);
-        this.jukeBox = new Label("Test", labelStyle);
+        this.jukeBox = new Label("", labelStyle);
 
         stage.addActor(labelInteraction);
         stage.addActor(jukeBox);
@@ -157,12 +156,6 @@ public abstract class WorldElement implements Screen {
 
         this.game.getPlayer().draw(batch);
         batch.end();
-
-
-        hudBatch.begin();
-        dialogPanel.getTable().draw(hudBatch, dialogPanel.getParentAlpha());
-        this.game.getPlayer().getInventory().draw(hudBatch);
-        hudBatch.end();
 
         stage.act();
         stage.draw();

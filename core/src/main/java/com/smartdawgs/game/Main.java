@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.smartdawgs.game.entity.EntityPlayer;
+import com.smartdawgs.game.gui.GuiHUD;
 import com.smartdawgs.game.gui.ScreenDead;
 import com.smartdawgs.game.sound.SoundManager;
 import com.smartdawgs.game.utils.Utils;
@@ -24,6 +25,7 @@ public class Main extends Game {
     private GlyphLayout glyphLayout;
 
     private World world;
+    private GuiHUD hud;
 
     @Override
     public void create() {
@@ -35,6 +37,8 @@ public class Main extends Game {
         this.setScreen(world);
         this.font = new BitmapFont();
         this.glyphLayout = new GlyphLayout();
+
+        this.hud = new GuiHUD(world);
     }
 
     public void reset() {
@@ -52,6 +56,8 @@ public class Main extends Game {
         if(this.soundManager.getMusicVolume() == 0) {
             this.youAreDead();
         }
+
+        this.hud.draw();
     }
 
     @Override

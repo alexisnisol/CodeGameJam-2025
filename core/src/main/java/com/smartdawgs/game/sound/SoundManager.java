@@ -62,7 +62,7 @@ public class SoundManager implements Disposable {
             this.musicVolume = 0;
         } else if (this.musicVolume <= 1f) {
             this.musicVolume -= volumeUnit * facteurVolume;
-            music.setVolume(musicVolume);
+            music.setVolume(musicVolume*0.1f);
         }
     }
 
